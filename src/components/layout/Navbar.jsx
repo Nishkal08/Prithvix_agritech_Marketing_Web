@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import Logo from '../ui/Logo';
 import Button from '../ui/Button';
 import { useLanguage } from '../../context/LanguageContext';
+import { Link } from 'react-router-dom';
 
 export default function Navbar({ onRequestDemo }) {
   const [scrolled, setScrolled] = useState(false);
@@ -117,10 +118,18 @@ export default function Navbar({ onRequestDemo }) {
               </AnimatePresence>
             </div>
 
+            <Link 
+              to="/dashboard" 
+              className="font-body text-sm font-medium text-offwhite/80 hover:text-gold transition-colors mr-2 pointer-events-auto"
+            >
+              Dealer Login
+            </Link>
+
             <Button variant="primary" size="sm" onClick={onRequestDemo}>
               {t.nav.requestDemo}
             </Button>
           </div>
+
 
           {/* Mobile Hamburger */}
           <button
@@ -173,9 +182,18 @@ export default function Navbar({ onRequestDemo }) {
                   </button>
                 ))}
               </div>
-              <Button variant="primary" size="md" onClick={() => { setMobileOpen(false); onRequestDemo(); }}>
-                {t.nav.requestDemo}
-              </Button>
+              <div className="flex flex-col gap-3 w-full px-8">
+                <Button variant="primary" size="md" onClick={() => { setMobileOpen(false); onRequestDemo(); }}>
+                  {t.nav.requestDemo}
+                </Button>
+                <Link 
+                  to="/dashboard" 
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full bg-white/10 text-offwhite font-display font-semibold py-4 rounded-xl text-center hover:bg-white/20 transition-colors"
+                >
+                  Dealer Portal Login
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

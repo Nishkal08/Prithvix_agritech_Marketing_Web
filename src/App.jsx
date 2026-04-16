@@ -15,6 +15,12 @@ import ProtectedRoute from './components/erp/layout/ProtectedRoute';
 import DashboardShell from './components/erp/layout/DashboardShell';
 import Login from './components/erp/pages/Login';
 import DashboardHome from './components/erp/pages/DashboardHome';
+import FarmerManagement from './components/erp/pages/FarmerManagement';
+import Inventory from './components/erp/pages/Inventory';
+import Udhaar from './components/erp/pages/Udhaar';
+import Analytics from './components/erp/pages/Analytics';
+import AIChat from './components/erp/pages/AIChat';
+import Settings from './components/erp/pages/Settings';
 
 // Lazy load sections below the fold
 const FeaturesSticky = lazy(() => import('./components/sections/FeaturesSticky'));
@@ -121,7 +127,12 @@ export default function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<DashboardShell />}>
                 <Route index element={<DashboardHome />} />
-                {/* Additional protected routes will be mounted here */}
+                <Route path="farmers" element={<FarmerManagement />} />
+                <Route path="inventory" element={<Inventory />} />
+                <Route path="udhaar" element={<Udhaar />} />
+                <Route path="analytics" element={<Analytics />} />
+                <Route path="chat" element={<AIChat />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
             </Route>
 
