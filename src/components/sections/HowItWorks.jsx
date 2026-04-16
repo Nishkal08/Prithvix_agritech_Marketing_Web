@@ -86,7 +86,7 @@ export default function HowItWorks() {
               return (
                 <div
                   key={i}
-                  className="bg-white border border-border rounded-lg p-8 relative group hover:shadow-md transition-shadow duration-300"
+                  className="bg-white border border-border rounded-3xl p-8 relative group hover:shadow-md transition-shadow duration-300"
                 >
                   {/* Decorative step number */}
                   <span className="font-display font-bold text-5xl text-gold/20 absolute top-4 right-4">

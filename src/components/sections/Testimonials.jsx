@@ -82,7 +82,7 @@ export default function Testimonials() {
                 transition={{ duration: 0.4, ease: 'easeInOut' }}
                 className="w-full"
               >
-                <div className="bg-white border border-border rounded-xl p-8 md:p-10 lg:p-12 shadow-sm">
+                <div className="bg-white border border-border rounded-3xl p-8 md:p-10 lg:p-12 shadow-sm">
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: 5 }).map((_, i) => (

@@ -49,20 +49,21 @@ export default function Navbar({ onRequestDemo }) {
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-offwhite/92 backdrop-blur-[12px] border-b border-border shadow-sm'
-            : 'bg-transparent'
-        }`}
-        style={{ height: 68 }}
-      >
-        <div className="section-container h-full flex items-center justify-between">
-          {/* Logo */}
-          <Logo
-            size="sm"
-            variant={scrolled ? 'dark' : 'dark'}
-          />
+      <div className="fixed top-0 w-full z-50 px-4 md:px-8 mt-4 md:mt-6 flex justify-center pointer-events-none">
+        <nav
+          className={`pointer-events-auto transition-all duration-300 w-full max-w-5xl rounded-full shadow-lg ${
+            scrolled
+              ? 'bg-forest/95 backdrop-blur-md border border-offwhite/10'
+              : 'bg-forest border border-transparent'
+          }`}
+          style={{ height: 68 }}
+        >
+          <div className="px-6 h-full flex items-center justify-between">
+            {/* Logo */}
+            <Logo
+              size="sm"
+              variant="light"
+            />
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
@@ -70,7 +71,7 @@ export default function Navbar({ onRequestDemo }) {
               <button
                 key={link.href}
                 onClick={() => scrollTo(link.href)}
-                className="relative font-body font-medium text-[15px] text-dark/80 hover:text-dark transition-colors group"
+                className="relative font-body font-medium text-[15px] text-offwhite/80 hover:text-gold transition-colors group"
               >
                 {link.label}
                 <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-250 ease-out" />
@@ -84,11 +85,11 @@ export default function Navbar({ onRequestDemo }) {
             <div ref={langRef} className="relative">
               <button
                 onClick={() => setLangDropdown(!langDropdown)}
-                className="flex items-center gap-1.5 font-body text-sm text-dark/70 hover:text-dark transition-colors px-2 py-1"
+                className="flex items-center gap-1.5 font-body text-sm text-offwhite/80 hover:text-gold transition-colors px-2 py-1"
               >
                 <span>{languages.find((l) => l.code === lang)?.flag}</span>
                 <span>{languages.find((l) => l.code === lang)?.display}</span>
-                <ChevronDown size={14} className={`transition-transform ${langDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown size={14} className={`transition-transform ${langDropdown ? 'rotate-180 text-gold' : ''}`} />
               </button>
               <AnimatePresence>
                 {langDropdown && (
@@ -97,14 +98,14 @@ export default function Navbar({ onRequestDemo }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 bg-white border border-border rounded-lg shadow-lg overflow-hidden min-w-[140px]"
+                    className="absolute right-0 mt-4 bg-forest border border-offwhite/10 rounded-2xl shadow-xl overflow-hidden min-w-[140px]"
                   >
                     {languages.map((l) => (
                       <button
                         key={l.code}
                         onClick={() => { switchLanguage(l.code); setLangDropdown(false); }}
-                        className={`w-full text-left px-4 py-2.5 text-sm font-body flex items-center gap-2 hover:bg-surface transition-colors ${
-                          lang === l.code ? 'text-forest font-medium bg-surface/50' : 'text-dark/70'
+                        className={`w-full text-left px-4 py-2.5 text-sm font-body flex items-center gap-2 hover:bg-[#122b1e] transition-colors ${
+                          lang === l.code ? 'text-gold font-medium bg-[#122b1e]' : 'text-offwhite/80'
                         }`}
                       >
                         <span>{l.flag}</span>
@@ -123,7 +124,7 @@ export default function Navbar({ onRequestDemo }) {
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden p-2 text-dark"
+            className="md:hidden p-2 text-offwhite hover:text-gold transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -131,6 +132,7 @@ export default function Navbar({ onRequestDemo }) {
           </button>
         </div>
       </nav>
+    </div>
 
       {/* Mobile Overlay */}
       <AnimatePresence>

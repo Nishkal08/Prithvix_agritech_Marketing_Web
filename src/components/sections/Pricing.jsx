@@ -66,7 +66,7 @@ export default function Pricing({ onRequestDemo }) {
             return (
             <div
               key={plan.name}
-              className={`relative w-full max-w-md lg:flex-1 rounded-lg p-8 lg:p-10 transition-transform duration-300 ${
+              className={`relative w-full max-w-md lg:flex-1 rounded-3xl p-8 lg:p-10 transition-transform duration-300 ${
                 isHighlighted
                   ? 'bg-gold text-dark lg:scale-[1.04]'
                   : 'bg-forest text-offwhite border border-[#2D5A3D]'

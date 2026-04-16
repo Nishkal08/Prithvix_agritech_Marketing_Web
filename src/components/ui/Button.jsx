@@ -31,7 +31,7 @@ export default function Button({
       transition={{ duration: 0.2 }}
       className={`
         font-display font-semibold tracking-wide-brand
-        inline-flex items-center justify-center
+        inline-flex items-center justify-center rounded-full
         transition-colors duration-200
         ${variants[variant] || variants.primary}
         ${sizes[size] || sizes.md}
