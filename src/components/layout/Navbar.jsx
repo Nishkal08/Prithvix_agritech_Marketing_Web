@@ -87,6 +87,7 @@ export default function Navbar({ onRequestDemo }) {
               <button
                 onClick={() => setLangDropdown(!langDropdown)}
                 className="flex items-center gap-1.5 font-body text-sm text-offwhite/80 hover:text-gold transition-colors px-2 py-1"
+                aria-label="Select language"
               >
                 <span>{languages.find((l) => l.code === lang)?.flag}</span>
                 <span>{languages.find((l) => l.code === lang)?.display}</span>
