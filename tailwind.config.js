@@ -15,6 +15,7 @@ export default {
         muted:     'rgb(var(--color-muted) / <alpha-value>)',
         surface:   'rgb(var(--color-surface) / <alpha-value>)',
         border:    'rgb(var(--color-border) / <alpha-value>)',
+        panel:     'rgb(var(--color-panel) / <alpha-value>)',
       },
       fontFamily: {
         display: ['Syne', 'sans-serif'],

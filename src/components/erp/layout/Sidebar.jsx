@@ -30,7 +30,7 @@ export default function Sidebar() {
       <div className={`hidden md:block shrink-0 transition-all duration-250 ease-out ${width}`} />
 
       <aside 
-        className={`hidden md:flex fixed top-0 left-0 bottom-0 bg-dark text-muted flex-col border-r border-forest/30 transition-all duration-250 ease-out z-40 ${width}`}
+        className={`hidden md:flex fixed top-0 left-0 bottom-0 bg-[#0E1A14] text-[#6B7C6E] flex-col border-r border-forest/30 transition-all duration-250 ease-out z-40 ${width}`}
       >
         {/* Logo Area */}
         <div className="h-[60px] flex items-center px-4 relative shrink-0">
@@ -115,7 +115,7 @@ export default function Sidebar() {
             </div>
             
             {!isCollapsed && (
-              <button onClick={logout} className="p-1.5 text-muted hover:text-offwhite hover:bg-forest/50 rounded-md transition-colors" title="Logout">
+              <button onClick={logout} className="p-1.5 text-[#6B7C6E] hover:text-offwhite hover:bg-forest/50 rounded-md transition-colors" title="Logout">
                 <LogOut size={16} />
               </button>
             )}
@@ -123,7 +123,7 @@ export default function Sidebar() {
 
           {/* Logout button for collapsed view */}
           {isCollapsed && (
-            <button onClick={logout} className="w-full flex justify-center mt-2 p-2 text-muted hover:text-[#D44A4A] transition-colors" title="Logout">
+            <button onClick={logout} className="w-full flex justify-center mt-2 p-2 text-[#6B7C6E] hover:text-[#D44A4A] transition-colors" title="Logout">
               <LogOut size={18} />
             </button>
           )}

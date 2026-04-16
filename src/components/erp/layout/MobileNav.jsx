@@ -10,7 +10,7 @@ const MOBILE_NAV_ITEMS = [
 
 export default function MobileNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-dark border-t border-forest/30 md:hidden z-50 flex" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-[#0E1A14] border-t border-forest/30 md:hidden z-50 flex" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       {MOBILE_NAV_ITEMS.map((item) => (
         <NavLink
           key={item.label}

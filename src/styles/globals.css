@@ -13,6 +13,7 @@
   --color-surface:    237 232 223;/* #EDE8DF */
   --color-border:     214 207 195;/* #D6CFC3 */
   --color-gold-light: 240 216 152;/* #F0D898 */
+  --color-panel:      255 255 255;/* #FFFFFF */
 }
 
 [data-theme='dark'] .erp-portal {
@@ -24,6 +25,7 @@
   --color-surface:    24 36 29;   /* #18241D */
   --color-border:     43 59 48;   /* #2B3B30 */
   --color-gold-light: 184 142 62; /* #B88E3E */
+  --color-panel:      24 36 29;   /* #18241D - same as surface for dark */
 }
 
 *, *::before, *::after {
