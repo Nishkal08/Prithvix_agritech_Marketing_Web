@@ -9,10 +9,10 @@ import SkeletonRow from '../ui/SkeletonRow';
 import { inventory } from '../../../data/erp/inventory';
 
 const CATEGORY_COLORS = {
-  Fertilizer: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50',
-  Pesticide:  'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50',
-  Seed:       'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50',
-  Other:      'bg-tertiary text-secondary border border-subtle',
+  Fertilizer: 'bg-[#D1E8DA] text-[#1A3C2B]',
+  Pesticide:  'bg-[#D4E8F5] text-[#1A3C7C]',
+  Seed:       'bg-[#F5ECD4] text-[#7C5C1A]',
+  Other:      'bg-[#EDE8DF] text-[#6B7C6E]',
 };
 
 function StockBar({ stock, minStock, maxStock, status }) {
@@ -20,9 +20,9 @@ function StockBar({ stock, minStock, maxStock, status }) {
   const barColor = status === 'Healthy' ? '#2D9E5A' : status === 'Low' ? '#D4A853' : '#D44A4A';
   return (
     <div>
-      <span className="text-[13px] font-bold text-primary block mb-1">{stock}</span>
-      <div className="h-1.5 bg-tertiary rounded-full overflow-hidden w-24 border border-subtle/50">
-        <div className="h-full rounded-full transition-all shadow-[0_0_8px_rgba(0,0,0,0.1)]" style={{ width: `${pct}%`, backgroundColor: barColor }} />
+      <span className="text-sm font-medium text-dark block mb-1">{stock}</span>
+      <div className="h-1.5 bg-[#EDE8DF] rounded-full overflow-hidden w-24">
+        <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: barColor }} />
       </div>
     </div>
   );
@@ -51,8 +51,8 @@ export default function Inventory() {
       id: 'product', header: 'Product',
       cell: ({ row }) => (
         <div>
-          <p className="font-bold text-sm text-primary uppercase tracking-tight">{row.original.name}</p>
-          <p className="text-[11px] text-secondary font-medium">{row.original.brand}</p>
+          <p className="font-medium text-sm text-dark">{row.original.name}</p>
+          <p className="text-[12px] text-muted">{row.original.brand}</p>
         </div>
       ),
     },
@@ -64,8 +64,8 @@ export default function Inventory() {
         </span>
       ),
     },
-    { id: 'unit', header: 'Unit', accessorKey: 'unit', cell: ({ getValue }) => <span className="text-[12px] font-medium text-secondary">{getValue()}</span> },
-    { id: 'price', header: 'Price', accessorKey: 'price', cell: ({ getValue }) => <span className="text-sm font-mono font-bold text-primary text-right block uppercase">₹{getValue().toLocaleString('en-IN')}</span> },
+    { id: 'unit', header: 'Unit', accessorKey: 'unit', cell: ({ getValue }) => <span className="text-sm text-secondary">{getValue()}</span> },
+    { id: 'price', header: 'Price', accessorKey: 'price', cell: ({ getValue }) => <span className="text-sm font-mono font-medium text-dark text-right block">₹{getValue().toLocaleString('en-IN')}</span> },
     {
       id: 'stock', header: 'Stock', accessorKey: 'stock',
       cell: ({ row }) => <StockBar stock={row.original.stock} minStock={row.original.minStock} maxStock={row.original.maxStock} status={row.original.status} />
@@ -82,13 +82,13 @@ export default function Inventory() {
           {row.original.variants?.length > 0 && (
             <button
               onClick={(e) => { e.stopPropagation(); toggleRow(row.original.id); }}
-              className="p-1.5 hover:bg-tertiary rounded-lg transition-colors border border-transparent hover:border-subtle"
+              className="p-1.5 hover:bg-[#F0EDE6] rounded transition-colors"
               aria-label="Expand variants"
             >
-              {expandedRows[row.original.id] ? <ChevronDown size={16} className="text-gold" /> : <ChevronRight size={16} className="text-secondary" />}
+              {expandedRows[row.original.id] ? <ChevronDown size={16} className="text-gold" /> : <ChevronRight size={16} className="text-muted" />}
             </button>
           )}
-          <button className="p-1.5 hover:bg-tertiary rounded-lg transition-colors text-secondary hover:text-primary border border-transparent hover:border-subtle" aria-label="Edit">
+          <button className="p-1.5 hover:bg-[#F0EDE6] rounded transition-colors text-muted hover:text-dark" aria-label="Edit">
             <Edit size={15} />
           </button>
         </div>
@@ -109,35 +109,35 @@ export default function Inventory() {
       <div className="space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="font-display font-bold text-2xl text-primary">Inventory</h1>
-          <button className="bg-gold text-dark text-sm font-bold px-4 py-2 rounded-lg hover:bg-gold/90 transition-colors shadow-sm">
-            + New Item
+          <h1 className="font-display font-bold text-2xl text-dark">Inventory</h1>
+          <button className="bg-gold text-dark text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold/90 transition-colors">
+            + Add Product
           </button>
         </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Total Products', value: totalProducts, color: 'text-primary' },
-            { label: 'Low Stock', value: lowStock, color: 'text-gold' },
+            { label: 'Total Products', value: totalProducts, color: 'text-dark' },
+            { label: 'Low Stock', value: lowStock, color: 'text-[#D4A853]' },
             { label: 'Reorder Needed', value: reorderNeeded, color: 'text-[#D44A4A]' },
-            { label: 'Total Stock Value', value: `₹${(totalValue / 100000).toFixed(1)}L`, color: 'text-[#2D9E5A]' },
+            { label: 'Total Stock Value', value: `₹${(totalValue / 100000).toFixed(1)}L`, color: 'text-[#1A3C2B]' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-secondary border border-subtle rounded-xl p-5 shadow-sm">
-              <p className="text-[11px] font-bold text-secondary uppercase tracking-wider mb-2">{label}</p>
+            <div key={label} className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+              <p className="text-[12px] text-muted mb-2">{label}</p>
               <p className={`font-display font-bold text-3xl ${color}`}>{value}</p>
             </div>
           ))}
         </div>
 
         {/* Table */}
-        <div className="bg-secondary border border-subtle rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-white border border-[#E8E3DA] rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-tertiary border-b border-subtle">
+                <tr className="bg-[#F5F0E8] border-b border-[#E8E3DA]">
                   {table.getFlatHeaders().map((header) => (
-                    <th key={header.id} scope="col" className="px-4 py-3 text-left text-[10px] font-bold text-secondary uppercase tracking-wider whitespace-nowrap">
+                    <th key={header.id} scope="col" className="px-4 py-3 text-left text-[11px] font-semibold text-muted uppercase tracking-wider whitespace-nowrap">
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </th>
                   ))}
@@ -151,7 +151,7 @@ export default function Inventory() {
                     <>
                       <tr
                         key={row.id}
-                        className={`border-b border-subtle last:border-0 transition-colors hover:bg-tertiary/50 ${i % 2 === 1 ? 'bg-primary/5' : 'bg-secondary'}`}
+                        className={`border-b border-[#F5F0E8] last:border-0 transition-colors hover:bg-[#F0EDE6] ${i % 2 === 1 ? 'bg-[#FAFAF8]' : 'bg-white'}`}
                         style={{ height: '52px' }}
                       >
                         {row.getVisibleCells().map((cell) => (
@@ -170,14 +170,14 @@ export default function Inventory() {
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.2 }}
-                                className="overflow-hidden bg-tertiary border-b border-subtle"
+                                className="overflow-hidden bg-[#FAFAF8] border-b border-[#E8E3DA]"
                               >
-                                <div className="px-10 py-4 bg-secondary/50">
-                                  <p className="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mb-3">Product Variants</p>
-                                  <table className="w-full text-[13px]">
+                                <div className="px-8 py-3">
+                                  <p className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Variants</p>
+                                  <table className="w-full text-xs">
                                     <thead>
-                                      <tr className="text-secondary/60 text-[10px] uppercase font-bold tracking-wider">
-                                        <th className="text-left py-2">SKU ID</th>
+                                      <tr className="text-muted">
+                                        <th className="text-left py-1">SKU</th>
                                         <th className="text-left py-1">Size</th>
                                         <th className="text-right py-1">Stock</th>
                                         <th className="text-right py-1">Price</th>
@@ -185,11 +185,11 @@ export default function Inventory() {
                                     </thead>
                                     <tbody>
                                       {row.original.variants.map((v) => (
-                                        <tr key={v.sku} className="border-t border-subtle/50">
-                                          <td className="py-2.5 font-mono text-secondary/70 text-[11px] uppercase">{v.sku}</td>
-                                          <td className="py-2.5 text-primary font-medium">{v.size}</td>
-                                          <td className="py-2.5 text-right text-primary font-bold">{v.stock}</td>
-                                          <td className="py-2.5 text-right font-mono text-primary font-bold">₹{v.price.toLocaleString('en-IN')}</td>
+                                        <tr key={v.sku} className="border-t border-[#EDE8DF]">
+                                          <td className="py-2 font-mono text-muted">{v.sku}</td>
+                                          <td className="py-2 text-dark">{v.size}</td>
+                                          <td className="py-2 text-right text-dark font-medium">{v.stock}</td>
+                                          <td className="py-2 text-right font-mono">₹{v.price.toLocaleString('en-IN')}</td>
                                         </tr>
                                       ))}
                                     </tbody>
@@ -208,11 +208,11 @@ export default function Inventory() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-4 py-3 border-t border-subtle bg-tertiary/30">
-            <p className="text-[11px] font-bold text-secondary uppercase tracking-tight">Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</p>
+          <div className="flex items-center justify-between px-4 py-3 border-t border-[#E8E3DA] bg-[#FAFAF8]">
+            <p className="text-[12px] text-muted">Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</p>
             <div className="flex items-center gap-2">
-              <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="text-[11px] font-bold px-3 py-1.5 rounded-lg border border-subtle bg-secondary text-primary disabled:opacity-40 hover:bg-tertiary transition-colors shadow-sm">← Prev</button>
-              <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="text-[11px] font-bold px-3 py-1.5 rounded-lg border border-subtle bg-secondary text-primary disabled:opacity-40 hover:bg-tertiary transition-colors shadow-sm">Next →</button>
+              <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6]">← Prev</button>
+              <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6]">Next →</button>
             </div>
           </div>
         </div>

@@ -1,13 +1,27 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Search, Bell, Sun, Moon } from 'lucide-react';
 import { AuthContext } from '../../../context/AuthContext';
-import { useTheme } from '../../../context/ThemeContext';
 
 export default function TopBar() {
   const { user } = useContext(AuthContext);
-  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'light';
+  });
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   // Simple breadcrumb generation
   const pathnames = location.pathname.split('/').filter(x => x);
@@ -16,7 +30,7 @@ export default function TopBar() {
     : 'Home';
 
   return (
-    <header className="h-[60px] bg-secondary border-b border-subtle flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 font-ui">
+    <header className="h-[60px] bg-white border-b border-[#E8E3DA] flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 font-ui transition-colors">
       
       {/* Left: Breadcrumbs */}
       <div className="flex items-center text-[13px] md:text-sm font-medium shrink-0">
@@ -36,7 +50,7 @@ export default function TopBar() {
           <input 
             type="text" 
             placeholder="Search farmers, products..." 
-            className="block w-full pl-10 pr-3 py-1.5 border border-[#E8E3DA] rounded-lg text-sm bg-[#FAFAF8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
+            className="block w-full pl-10 pr-3 py-1.5 border border-[#E8E3DA] rounded-lg text-sm bg-offwhite focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors text-dark"
           />
         </div>
 
@@ -45,14 +59,13 @@ export default function TopBar() {
           {/* Theme Toggle */}
           <button 
             onClick={toggleTheme}
-            className="p-2 text-secondary hover:text-dark hover:bg-tertiary rounded-full transition-colors hidden md:block"
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            className="p-2 text-secondary hover:text-dark hover:bg-offwhite rounded-full transition-colors hidden md:block"
           >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            {theme === 'dark' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
           
           {/* Notifications */}
-          <button className="p-2 text-secondary hover:text-dark hover:bg-[#F0EDE6] rounded-full transition-colors relative">
+          <button className="p-2 text-secondary hover:text-dark hover:bg-offwhite rounded-full transition-colors relative">
             <Bell size={18} />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#D44A4A] rounded-full border border-white" />
           </button>

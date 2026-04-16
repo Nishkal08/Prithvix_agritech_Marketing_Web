@@ -1,19 +1,19 @@
 const STATUS_STYLES = {
-  Healthy: 'bg-[#1A3C2B]/10 text-[#2D9E5A] dark:bg-[#2D9E5A]/20 dark:text-[#4ADE80]',
-  Low:     'bg-[#D4A853]/10 text-[#D4A853] dark:bg-[#D4A853]/20 dark:text-[#FDE68A]',
-  Reorder: 'bg-[#D44A4A]/10 text-[#D44A4A] dark:bg-[#D44A4A]/20 dark:text-[#FCA5A5]',
-  Clear:   'bg-[#1A3C2B]/10 text-[#2D9E5A] dark:bg-[#2D9E5A]/20 dark:text-[#4ADE80]',
-  Due:     'bg-[#D4A853]/10 text-[#D4A853] dark:bg-[#D4A853]/20 dark:text-[#FDE68A]',
-  Overdue: 'bg-[#D44A4A]/10 text-[#D44A4A] dark:bg-[#D44A4A]/20 dark:text-[#FCA5A5]',
-  Active:  'bg-[#1A3C2B]/10 text-[#2D9E5A] dark:bg-[#2D9E5A]/20 dark:text-[#4ADE80]',
-  Inactive:'bg-tertiary text-secondary border border-subtle',
+  Healthy: 'bg-[#D1E8DA] text-[#1A3C2B]',
+  Low:     'bg-[#F5E6C8] text-[#7C5C1A]',
+  Reorder: 'bg-[#F5D1D1] text-[#7C1A1A]',
+  Clear:   'bg-[#D1E8DA] text-[#1A3C2B]',
+  Due:     'bg-[#F5E6C8] text-[#7C5C1A]',
+  Overdue: 'bg-[#F5D1D1] text-[#7C1A1A]',
+  Active:  'bg-[#D1E8DA] text-[#1A3C2B]',
+  Inactive:'bg-[#E8E3DA] text-[#6B7C6E]',
 };
 
 export default function StatusBadge({ status }) {
-  const style = STATUS_STYLES[status] || 'bg-tertiary text-secondary';
+  const style = STATUS_STYLES[status] || 'bg-[#E8E3DA] text-[#6B7C6E]';
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${style} transition-all duration-300 shadow-sm border border-current/5`}>
-      <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse shadow-[0_0_4px_currentColor]" />
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${style}`}>
+      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
       {status}
     </span>
   );

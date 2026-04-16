@@ -14,9 +14,9 @@ const DAY_KEY = { 'today': 'time', 'thisWeek': 'day', 'thisMonth': 'week', 'allT
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-secondary border border-subtle rounded-lg px-4 py-2.5 shadow-xl text-sm">
-      <p className="text-secondary text-[10px] font-bold uppercase tracking-wider mb-1">{label}</p>
-      <p className="font-display font-bold text-primary text-base">{typeof payload[0].value === 'number' && payload[0].value > 1000 ? `₹${payload[0].value.toLocaleString('en-IN')}` : payload[0].value}</p>
+    <div className="bg-white border border-[#E8E3DA] rounded-lg px-4 py-2.5 shadow-lg text-sm">
+      <p className="text-muted text-xs mb-1">{label}</p>
+      <p className="font-display font-bold text-dark">{typeof payload[0].value === 'number' && payload[0].value > 1000 ? `₹${payload[0].value.toLocaleString('en-IN')}` : payload[0].value}</p>
     </div>
   );
 };
@@ -24,27 +24,27 @@ const CustomTooltip = ({ active, payload, label }) => {
 function RevenueChart({ data, xKey }) {
   const [chartType, setChartType] = useState('bar');
   return (
-    <div className="bg-secondary border border-subtle rounded-xl p-5 shadow-sm">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="font-display font-bold text-sm text-primary uppercase tracking-tight">Revenue Analytics</h3>
-        <div className="flex gap-1 bg-tertiary rounded-lg p-1 border border-subtle">
+    <div className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-display font-semibold text-base text-dark">Revenue</h3>
+        <div className="flex gap-1 bg-[#F5F0E8] rounded-lg p-1">
           {['bar', 'line'].map(t => (
             <button key={t} onClick={() => setChartType(t)}
-              className={`text-[10px] px-3 py-1.5 rounded-md font-bold capitalize transition-all ${chartType === t ? 'bg-gold text-dark shadow-sm' : 'text-secondary hover:text-primary'}`}>
+              className={`text-xs px-3 py-1 rounded font-medium capitalize transition-colors ${chartType === t ? 'bg-white text-dark shadow-sm' : 'text-muted hover:text-dark'}`}>
               {t}
             </button>
           ))}
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={220}>
+      <ResponsiveContainer width="100%" height={200}>
         <ComposedChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} opacity={0.5} />
-          <XAxis dataKey={xKey} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontWeight: 600 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontWeight: 600 }} axisLine={false} tickLine={false} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--bg-tertiary)', opacity: 0.4 }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#F0EDE6" vertical={false} />
+          <XAxis dataKey={xKey} tick={{ fontSize: 11, fill: '#9BA89E' }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 11, fill: '#9BA89E' }} axisLine={false} tickLine={false} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
+          <Tooltip content={<CustomTooltip />} />
           {chartType === 'bar'
-            ? <Bar dataKey="value" fill="var(--color-forest)" radius={[4, 4, 0, 0]} />
-            : <Line type="monotone" dataKey="value" stroke="var(--color-gold)" strokeWidth={3} dot={{ fill: 'var(--color-gold)', r: 4, strokeWidth: 2, stroke: 'var(--bg-secondary)' }} activeDot={{ r: 6, strokeWidth: 0 }} />
+            ? <Bar dataKey="value" fill="#1A3C2B" radius={[4, 4, 0, 0]} />
+            : <Line type="monotone" dataKey="value" stroke="#D4A853" strokeWidth={2.5} dot={{ fill: '#D4A853', r: 3 }} />
           }
         </ComposedChart>
       </ResponsiveContainer>
@@ -54,21 +54,21 @@ function RevenueChart({ data, xKey }) {
 
 function FarmerGrowthChart({ data }) {
   return (
-    <div className="bg-secondary border border-subtle rounded-xl p-5 shadow-sm">
-      <h3 className="font-display font-bold text-sm text-primary mb-6 uppercase tracking-tight">Farmer Ecosystem Growth</h3>
-      <ResponsiveContainer width="100%" height={220}>
+    <div className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+      <h3 className="font-display font-semibold text-base text-dark mb-4">Farmer Growth</h3>
+      <ResponsiveContainer width="100%" height={200}>
         <AreaChart data={data}>
           <defs>
             <linearGradient id="growGrad2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="var(--color-forest)" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="var(--color-forest)" stopOpacity={0} />
+              <stop offset="5%" stopColor="#1A3C2B" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#1A3C2B" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} opacity={0.5} />
-          <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontWeight: 600 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontWeight: 600 }} axisLine={false} tickLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#F0EDE6" vertical={false} />
+          <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9BA89E' }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 11, fill: '#9BA89E' }} axisLine={false} tickLine={false} />
           <Tooltip content={<CustomTooltip />} />
-          <Area type="monotone" dataKey="count" stroke="var(--color-gold)" strokeWidth={3} fill="url(#growGrad2)" activeDot={{ r: 6, strokeWidth: 0 }} />
+          <Area type="monotone" dataKey="count" stroke="#D4A853" strokeWidth={2} fill="url(#growGrad2)" />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -80,27 +80,27 @@ function CollectionDonut({ data }) {
   const collected = data[0]?.value || 0;
   const pct = Math.round((collected / total) * 100);
   return (
-    <div className="bg-secondary border border-subtle rounded-xl p-5 shadow-sm">
-      <h3 className="font-display font-bold text-sm text-primary mb-6 uppercase tracking-tight">Collection Efficiency</h3>
-      <div className="flex items-center justify-around gap-6 py-2">
+    <div className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+      <h3 className="font-display font-semibold text-base text-dark mb-4">Collection Rate</h3>
+      <div className="flex items-center gap-6">
         <div className="relative">
-          <PieChart width={150} height={150}>
-            <Pie data={data} cx={70} cy={70} innerRadius={50} outerRadius={70} dataKey="value" paddingAngle={4} stroke="none">
+          <PieChart width={140} height={140}>
+            <Pie data={data} cx={65} cy={65} innerRadius={45} outerRadius={65} dataKey="value" paddingAngle={3}>
               {data.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
             </Pie>
           </PieChart>
-          <div className="absolute inset-0 flex items-center justify-center flex-col translate-y-[-5px]">
-            <span className="font-display font-bold text-3xl text-primary">{pct}%</span>
-            <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">Ratio</span>
+          <div className="absolute inset-0 flex items-center justify-center flex-col">
+            <span className="font-display font-bold text-2xl text-dark">{pct}%</span>
+            <span className="text-[10px] text-muted">collected</span>
           </div>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {data.map(d => (
-            <div key={d.name} className="flex items-center gap-3">
-              <div className="w-3.5 h-3.5 rounded-full shadow-sm" style={{ backgroundColor: d.color }} />
+            <div key={d.name} className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
               <div>
-                <p className="text-[11px] font-bold text-primary uppercase tracking-tight">{d.name}</p>
-                <p className="text-[13px] font-mono text-secondary font-bold">₹{d.value.toLocaleString('en-IN')}</p>
+                <p className="text-xs font-medium text-dark">{d.name}</p>
+                <p className="text-xs text-muted">₹{d.value.toLocaleString('en-IN')}</p>
               </div>
             </div>
           ))}
@@ -112,15 +112,15 @@ function CollectionDonut({ data }) {
 
 function InventoryBreakdownChart({ data }) {
   return (
-    <div className="bg-secondary border border-subtle rounded-xl p-5 shadow-sm">
-      <h3 className="font-display font-bold text-sm text-primary mb-6 uppercase tracking-tight">Inventory Distribution</h3>
-      <ResponsiveContainer width="100%" height={180}>
+    <div className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+      <h3 className="font-display font-semibold text-base text-dark mb-4">Inventory Breakdown</h3>
+      <ResponsiveContainer width="100%" height={160}>
         <BarChart data={data} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" horizontal={false} opacity={0.5} />
-          <XAxis type="number" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontWeight: 600 }} axisLine={false} tickLine={false} />
-          <YAxis dataKey="category" type="category" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontWeight: 600 }} axisLine={false} tickLine={false} width={80} />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--bg-tertiary)', opacity: 0.4 }} />
-          <Bar dataKey="value" fill="var(--color-gold)" radius={[0, 4, 4, 0]} barSize={24} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#F0EDE6" horizontal={false} />
+          <XAxis type="number" tick={{ fontSize: 11, fill: '#9BA89E' }} axisLine={false} tickLine={false} />
+          <YAxis dataKey="category" type="category" tick={{ fontSize: 11, fill: '#9BA89E' }} axisLine={false} tickLine={false} width={70} />
+          <Tooltip contentStyle={{ background: '#fff', border: '1px solid #E8E3DA', borderRadius: '8px', fontSize: '12px' }} />
+          <Bar dataKey="value" fill="#1A3C2B" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -139,13 +139,13 @@ export default function Analytics() {
       <div className="space-y-5">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="font-display font-bold text-2xl text-primary">Intelligence Hub</h1>
+          <h1 className="font-display font-bold text-2xl text-dark">Analytics</h1>
           {/* Date Range Tabs */}
-          <div className="flex gap-1 bg-secondary border border-subtle rounded-xl p-1 shadow-inner">
+          <div className="flex gap-1 bg-white border border-[#E8E3DA] rounded-xl p-1">
             {RANGE_TABS.map(tab => (
               <button key={tab} onClick={() => setActiveRange(tab)}
-                className={`text-[11px] px-4 py-2 rounded-lg font-bold transition-all whitespace-nowrap ${
-                  activeRange === tab ? 'bg-gold text-dark shadow-sm' : 'text-secondary hover:text-primary hover:bg-tertiary'
+                className={`text-xs px-3 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${
+                  activeRange === tab ? 'bg-dark text-offwhite' : 'text-muted hover:text-dark hover:bg-[#F0EDE6]'
                 }`}>
                 {tab}
               </button>
@@ -162,29 +162,29 @@ export default function Analytics() {
         </div>
 
         {/* Farmer Distrubution Map */}
-        <div className="bg-secondary border border-subtle rounded-xl p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="font-display font-bold text-sm text-primary uppercase tracking-tight">Farmer Distribution & Udhaar Density</h3>
-            <div className="flex gap-2 bg-tertiary p-1 rounded-xl border border-subtle shadow-inner">
+        <div className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-semibold text-base text-dark">Farmer Distribution & Udhaar Density</h3>
+            <div className="flex gap-2">
               <button 
                 onClick={() => setMapView('cluster')}
-                className={`text-[10px] font-bold px-4 py-2 rounded-lg transition-all ${
-                  mapView === 'cluster' ? 'bg-gold text-dark shadow-sm' : 'text-secondary hover:text-primary'
+                className={`text-[11px] font-bold px-3 py-1.5 rounded-full transition-colors border ${
+                  mapView === 'cluster' ? 'bg-forest text-gold border-forest' : 'bg-white text-muted border-[#E8E3DA]'
                 }`}
               >
-                CLUSTERS
+                Clusters
               </button>
               <button 
                 onClick={() => setMapView('heat')}
-                className={`text-[10px] font-bold px-4 py-2 rounded-lg transition-all ${
-                  mapView === 'heat' ? 'bg-gold text-dark shadow-sm' : 'text-secondary hover:text-primary'
+                className={`text-[11px] font-bold px-3 py-1.5 rounded-full transition-colors border ${
+                  mapView === 'heat' ? 'bg-forest text-gold border-forest' : 'bg-white text-muted border-[#E8E3DA]'
                 }`}
               >
-                HEATMAP
+                Heatmap
               </button>
             </div>
           </div>
-          <div className="h-[450px] rounded-xl overflow-hidden border border-subtle shadow-inner">
+          <div className="h-[400px]">
             <FarmerMap view={mapView} />
           </div>
         </div>

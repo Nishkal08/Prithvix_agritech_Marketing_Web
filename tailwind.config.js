@@ -7,14 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        forest:    '#1A3C2B',
-        gold:      '#D4A853',
-        'gold-light': '#F0D898',
-        offwhite:  '#F5F0E8',
-        dark:      '#0E1A14',
-        muted:     '#6B7C6E',
-        surface:   '#EDE8DF',
-        border:    '#D6CFC3',
+        forest:    'var(--color-forest)',
+        gold:      'var(--color-gold)',
+        'gold-light': 'var(--color-gold-light)',
+        offwhite:  'var(--color-offwhite)',
+        dark:      'var(--color-dark)',
+        muted:     'var(--color-muted)',
+        surface:   'var(--color-surface)',
+        border:    'var(--color-border)',
       },
       fontFamily: {
         display: ['Syne', 'sans-serif'],

@@ -40,7 +40,7 @@ export default function DashboardHome() {
 
         {/* Page Header */}
         <div>
-          <h1 className="font-display font-bold text-2xl text-primary">Dashboard</h1>
+          <h1 className="font-display font-bold text-2xl text-dark">Dashboard</h1>
           <p className="text-secondary text-sm mt-1">Good morning — here's what's happening today.</p>
         </div>
 
@@ -69,15 +69,15 @@ export default function DashboardHome() {
           >
             <UserPlus size={16} /> Register Farmer
           </button>
-          <button className="flex items-center gap-2 bg-secondary border border-subtle text-primary text-sm font-medium px-4 py-2.5 rounded-full hover:bg-tertiary transition-colors">
+          <button className="flex items-center gap-2 bg-white border border-[#E8E3DA] text-dark text-sm font-medium px-4 py-2.5 rounded-full hover:bg-[#F0EDE6] transition-colors">
             <MapPin size={16} /> Log Visit
           </button>
-          <button className="flex items-center gap-2 bg-secondary border border-subtle text-primary text-sm font-medium px-4 py-2.5 rounded-full hover:bg-tertiary transition-colors">
+          <button className="flex items-center gap-2 bg-white border border-[#E8E3DA] text-dark text-sm font-medium px-4 py-2.5 rounded-full hover:bg-[#F0EDE6] transition-colors">
             <CreditCard size={16} /> Record Payment
           </button>
           <button
             onClick={() => navigate('/dashboard/inventory')}
-            className="flex items-center gap-2 bg-secondary border border-subtle text-primary text-sm font-medium px-4 py-2.5 rounded-full hover:bg-tertiary transition-colors"
+            className="flex items-center gap-2 bg-white border border-[#E8E3DA] text-dark text-sm font-medium px-4 py-2.5 rounded-full hover:bg-[#F0EDE6] transition-colors"
           >
             <Package size={16} /> Add Product
           </button>
@@ -87,21 +87,21 @@ export default function DashboardHome() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
           {/* Recent Activity */}
-          <div className="lg:col-span-2 bg-secondary border border-subtle rounded-xl overflow-hidden shadow-sm">
-            <div className="px-5 py-4 border-b border-subtle">
-              <h2 className="font-display font-semibold text-base text-primary">Recent Activity</h2>
+          <div className="lg:col-span-2 bg-white border border-[#E8E3DA] rounded-xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#E8E3DA]">
+              <h2 className="font-display font-semibold text-base text-dark">Recent Activity</h2>
             </div>
             <div className="overflow-y-auto max-h-[360px]" style={{ scrollbarWidth: 'thin', scrollbarColor: '#D6CFC3 transparent' }}>
               {recentActivity.map((item) => {
                 const { Icon, bg, color } = ACTIVITY_ICON_MAP[item.type] || ACTIVITY_ICON_MAP.Package;
                 return (
-                  <div key={item.id} className="flex items-center gap-4 px-5 py-3.5 border-b border-subtle last:border-0 hover:bg-tertiary transition-colors">
+                  <div key={item.id} className="flex items-center gap-4 px-5 py-3.5 border-b border-[#F5F0E8] last:border-0 hover:bg-[#FAFAF8] transition-colors">
                     <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${bg}`}>
                       <Icon size={16} className={color} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-primary truncate">{item.action}</p>
-                      <p className="text-[12px] text-secondary mt-0.5">{formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}</p>
+                      <p className="text-sm text-dark truncate">{item.action}</p>
+                      <p className="text-[12px] text-muted mt-0.5">{formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}</p>
                     </div>
                     <span className="text-[11px] font-semibold bg-[#EDE8DF] text-secondary px-2 py-1 rounded-full shrink-0">{item.context}</span>
                   </div>
@@ -113,9 +113,9 @@ export default function DashboardHome() {
           {/* Sparkline Cards */}
           <div className="flex flex-col gap-4">
             {/* Revenue Sparkline */}
-            <div className="bg-secondary border border-subtle rounded-xl p-5 flex-1 shadow-sm">
+            <div className="bg-white border border-[#E8E3DA] rounded-xl p-5 flex-1">
               <p className="text-[12px] text-secondary font-medium mb-1">Revenue — last 7 days</p>
-              <p className="font-display font-bold text-2xl text-primary mb-3">₹2,84,000</p>
+              <p className="font-display font-bold text-2xl text-dark mb-3">₹2,84,000</p>
               <ResponsiveContainer width="100%" height={60}>
                 <AreaChart data={sparklineData7d} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                   <defs>
@@ -126,8 +126,7 @@ export default function DashboardHome() {
                   </defs>
                   <Area type="monotone" dataKey="v" stroke="#D4A853" strokeWidth={2} fill="url(#revGrad)" dot={false} />
                   <Tooltip
-                    contentStyle={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-primary)' }}
-                    itemStyle={{ color: 'var(--text-primary)' }}
+                    contentStyle={{ background: '#fff', border: '1px solid #E8E3DA', borderRadius: '8px', fontSize: '12px' }}
                     formatter={(v) => [`₹${v.toLocaleString('en-IN')}`, '']}
                     labelFormatter={() => ''}
                   />
@@ -136,9 +135,9 @@ export default function DashboardHome() {
             </div>
 
             {/* Farmer Growth Sparkline */}
-            <div className="bg-secondary border border-subtle rounded-xl p-5 flex-1 shadow-sm">
+            <div className="bg-white border border-[#E8E3DA] rounded-xl p-5 flex-1">
               <p className="text-[12px] text-secondary font-medium mb-1">New Farmers — 30 days</p>
-              <p className="font-display font-bold text-2xl text-primary mb-3">142</p>
+              <p className="font-display font-bold text-2xl text-dark mb-3">142</p>
               <ResponsiveContainer width="100%" height={60}>
                 <AreaChart data={sparklineGrowth} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                   <defs>
@@ -149,8 +148,7 @@ export default function DashboardHome() {
                   </defs>
                   <Area type="monotone" dataKey="v" stroke="#1A3C2B" strokeWidth={2} fill="url(#growGrad)" dot={false} />
                   <Tooltip
-                    contentStyle={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-primary)' }}
-                    itemStyle={{ color: 'var(--text-primary)' }}
+                    contentStyle={{ background: '#fff', border: '1px solid #E8E3DA', borderRadius: '8px', fontSize: '12px' }}
                     formatter={(v) => [v, 'Farmers']}
                     labelFormatter={() => ''}
                   />

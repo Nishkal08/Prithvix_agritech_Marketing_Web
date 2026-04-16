@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { Send, Plus, ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
+import Anthropic from '@anthropic-ai/sdk';
 import PageTransition from '../ui/PageTransition';
 import { chatHistoryList } from '../../../data/erp/chatHistory';
 import { cropReferences } from '../../../data/erp/cropReference';
@@ -82,42 +83,38 @@ export default function AIChat() {
     setError(null);
 
     try {
-      // Direct fetch to our local proxy to avoid SDK header conflicts
-      const history = messages.map(m => ({ role: m.role, content: m.content }));
-      
-      const response = await fetch('/api/claude/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-3-sonnet-20240229',
-          max_tokens: 1024,
-          system: SYSTEM_PROMPT,
-          messages: [...history, userMsg],
-        }),
-      });
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error?.message || `HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const assistantContent = data.content[0]?.text || 'Sorry, I could not generate a response.';
-      setMessages(prev => [...prev, { role: 'assistant', content: assistantContent, timestamp: new Date().toISOString() }]);
+      // Functional Mock Response Simulation (to avoid API key / CORS errors in demo)
+      setTimeout(() => {
+        let assistantContent = "Here's what you need to know about that crop. Use NPK 19:19:19 with proper irrigation. Do you have any specific concerns about pests?";
+        const lowerInput = content.toLowerCase();
+        
+        if (lowerInput.includes('wheat') || lowerInput.includes('disease')) {
+          assistantContent = "For wheat crop diseases like yellow rust, I recommend applying Propiconazole 25% EC at 1 ml/liter of water. Notice any yellowing on the leaves?";
+        } else if (lowerInput.includes('dap') || lowerInput.includes('npk')) {
+          assistantContent = "DAP is high in Phosphorus (18-46-0), excellent for root growth during sowing. NPK is balanced and great for overall growth later. What stage is the crop in right now?";
+        } else if (lowerInput.includes('kharif') || lowerInput.includes('season')) {
+          assistantContent = "For the Kharif season, focus on high-yield varieties of Paddy or Soybean. Ensure your soil is well-drained. What specific crops is the farmer planning to sow?";
+        } else if (lowerInput.includes('pesticide') || lowerInput.includes('dosage')) {
+          assistantContent = "Generally, for standard pesticide application like Imidacloprid, the dosage is 0.5 - 1 ml per liter of water depending on the pest pressure. Which pest are you trying to control?";
+        } else {
+          // If a language other than english is active, mock translation slightly
+          if (activeLang === 'hi') {
+            assistantContent = "नमस्ते, मैं आपकी कैसे मदद कर सकता हूँ? कृपया अपनी फसल या समस्या के बारे में अधिक जानकारी दें।";
+          } else if (activeLang === 'mr') {
+            assistantContent = "नमस्कार! मी तुम्हाला कशी मदत करू शकतो? कृपया तुमच्या पिकाबद्दल अधिक सांगा.";
+          } else if (activeLang === 'gu') {
+            assistantContent = "નમસ્તે, હું તમને કેવી રીતે મદદ કરી શકું? કૃપા કરીને તમારા પાક વિશે વધુ કહો.";
+          }
+        }
+        
+        setMessages(prev => [...prev, { role: 'assistant', content: assistantContent, timestamp: new Date().toISOString() }]);
+        setIsLoading(false);
+      }, 1500); // Simulate network delay
     } catch (err) {
-      console.error('AI Chat Error:', err);
-      if (err.message.includes('401') || err.message.includes('key')) {
-        setError('Missing or invalid API Key. Please check your .env file and restart the server.');
-      } else {
-        setError(`Failed to connect to AI: ${err.message}`);
-      }
+      setError('Connection error. Please check your network and try again.');
       setMessages(prev => prev.slice(0, -1));
-    } finally {
       setIsLoading(false);
     }
-
   }, [input, messages, isLoading, activeLang]);
 
   const handleKeyDown = (e) => {
@@ -132,49 +129,49 @@ export default function AIChat() {
       <div className="flex gap-5 h-[calc(100vh-140px)] min-h-[500px]">
 
         {/* Left Session Sidebar */}
-        <div className="hidden lg:flex w-[240px] shrink-0 bg-secondary border border-subtle rounded-xl flex-col overflow-hidden shadow-sm">
-          <div className="p-3 border-b border-subtle">
+        <div className="hidden lg:flex w-[240px] shrink-0 bg-white border border-[#E8E3DA] rounded-xl flex-col overflow-hidden">
+          <div className="p-3 border-b border-[#E8E3DA]">
             <button
               onClick={() => { setMessages([]); setActiveSession(null); }}
-              className="w-full flex items-center justify-center gap-2 bg-forest text-offwhite text-sm font-semibold py-2.5 rounded-lg hover:bg-forest/90 transition-colors shadow-sm"
+              className="w-full flex items-center justify-center gap-2 bg-[#1A3C2B] text-offwhite text-sm font-semibold py-2.5 rounded-lg hover:bg-[#1A3C2B]/90 transition-colors"
             >
               <Plus size={16} /> New Chat
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
-            <p className="text-[10px] font-semibold text-secondary uppercase tracking-wider px-2 py-2">Recent</p>
+            <p className="text-[10px] font-semibold text-muted uppercase tracking-wider px-2 py-2">Recent</p>
             {chatHistoryList.map(session => (
               <button
                 key={session.id}
                 onClick={() => setActiveSession(session.id)}
                 className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors mb-0.5 border-l-[3px] ${
-                  activeSession === session.id ? 'bg-tertiary border-gold text-primary' : 'border-transparent text-secondary hover:bg-tertiary hover:text-primary'
+                  activeSession === session.id ? 'bg-[#EDE8DF] border-gold text-dark' : 'border-transparent text-secondary hover:bg-[#F5F0E8] hover:text-dark'
                 }`}
               >
                 <p className="font-medium truncate text-[13px]">{session.title}</p>
-                <p className="text-[11px] text-secondary mt-0.5">{session.date}</p>
+                <p className="text-[11px] text-muted mt-0.5">{session.date}</p>
               </button>
             ))}
           </div>
         </div>
 
         {/* Center Chat Window */}
-        <div className="flex-1 bg-secondary border border-subtle rounded-xl flex flex-col overflow-hidden shadow-sm">
+        <div className="flex-1 bg-white border border-[#E8E3DA] rounded-xl flex flex-col overflow-hidden">
           {/* Chat Header with Language Selector */}
-          <div className="px-5 py-3 border-b border-subtle flex items-center justify-between">
+          <div className="px-5 py-3 border-b border-[#E8E3DA] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-forest flex items-center justify-center shadow-inner">
+              <div className="w-8 h-8 rounded-full bg-[#1A3C2B] flex items-center justify-center">
                 <span className="text-gold text-sm">🌱</span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-primary">Prithvix AI Agronomist</p>
-                <p className="text-[11px] text-[#2D9E5A] font-medium">● Online</p>
+                <p className="text-sm font-semibold text-dark">Prithvix AI Agronomist</p>
+                <p className="text-[11px] text-[#2D9E5A]">● Online</p>
               </div>
             </div>
-            <div className="flex gap-1 bg-tertiary rounded-lg p-1">
+            <div className="flex gap-1 bg-[#F5F0E8] rounded-lg p-1">
               {LANGUAGES.map(l => (
                 <button key={l.id} onClick={() => setActiveLang(l.id)}
-                  className={`text-xs px-2.5 py-1 rounded font-medium transition-colors ${activeLang === l.id ? 'bg-gold text-dark shadow-sm' : 'text-secondary hover:text-primary'}`}>
+                  className={`text-xs px-2.5 py-1 rounded font-medium transition-colors ${activeLang === l.id ? 'bg-gold text-dark' : 'text-muted hover:text-dark'}`}>
                   {l.label}
                 </button>
               ))}
@@ -187,7 +184,7 @@ export default function AIChat() {
               <div className="flex flex-col items-center justify-center h-full gap-6">
                 <div className="text-center">
                   <div className="text-5xl mb-3">🌾</div>
-                  <h3 className="font-display font-semibold text-lg text-primary">Ask the AI Agronomist</h3>
+                  <h3 className="font-display font-semibold text-lg text-dark">Ask the AI Agronomist</h3>
                   <p className="text-secondary text-sm mt-1">Get expert advice on crops, diseases, and fertilizers</p>
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center max-w-lg">
@@ -195,7 +192,7 @@ export default function AIChat() {
                     <button
                       key={chip}
                       onClick={() => sendMessage(chip)}
-                      className="text-sm bg-secondary border border-subtle rounded-full px-4 py-2 hover:border-gold hover:text-primary text-secondary transition-colors"
+                      className="text-sm bg-white border border-[#D6CFC3] rounded-full px-4 py-2 hover:border-gold hover:text-dark text-secondary transition-colors"
                     >
                       {chip}
                     </button>
@@ -207,17 +204,17 @@ export default function AIChat() {
             {messages.map((msg, i) => (
               <div key={i} className={`flex items-end gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 {msg.role === 'assistant' && (
-                  <div className="w-7 h-7 rounded-full bg-forest flex items-center justify-center shrink-0 text-sm mb-1 shadow-sm">🌱</div>
+                  <div className="w-7 h-7 rounded-full bg-[#1A3C2B] flex items-center justify-center shrink-0 text-sm mb-1">🌱</div>
                 )}
                 <div className="flex flex-col gap-1 max-w-[75%]">
                   <div className={`px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user'
-                      ? 'bg-forest text-offwhite rounded-[16px_16px_4px_16px] shadow-sm'
-                      : 'bg-tertiary border border-subtle text-primary rounded-[16px_16px_16px_4px] shadow-sm'
+                      ? 'bg-[#1A3C2B] text-offwhite rounded-[16px_16px_4px_16px]'
+                      : 'bg-white border border-[#E8E3DA] text-dark rounded-[16px_16px_16px_4px]'
                   }`}>
                     {msg.content}
                   </div>
-                  <p className={`text-[10px] text-secondary ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                  <p className={`text-[10px] text-muted ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                     {msg.timestamp ? format(new Date(msg.timestamp), 'HH:mm') : ''}
                   </p>
                 </div>
@@ -226,8 +223,8 @@ export default function AIChat() {
 
             {isLoading && (
               <div className="flex items-end gap-3">
-                <div className="w-7 h-7 rounded-full bg-forest flex items-center justify-center shrink-0 text-sm">🌱</div>
-                <div className="bg-tertiary border border-subtle rounded-[16px_16px_16px_4px] px-4 py-3">
+                <div className="w-7 h-7 rounded-full bg-[#1A3C2B] flex items-center justify-center shrink-0 text-sm">🌱</div>
+                <div className="bg-white border border-[#E8E3DA] rounded-[16px_16px_16px_4px] px-4 py-3">
                   <TypingIndicator />
                 </div>
               </div>
@@ -244,7 +241,7 @@ export default function AIChat() {
           </div>
 
           {/* Input Area */}
-          <div className="px-4 py-3 border-t border-subtle">
+          <div className="px-4 py-3 border-t border-[#E8E3DA]">
             <div className="flex items-end gap-3">
               <div className="flex-1 relative">
                 <textarea
@@ -254,40 +251,40 @@ export default function AIChat() {
                   onKeyDown={handleKeyDown}
                   placeholder="Ask about crops, diseases, products..."
                   rows={1}
-                  className="w-full bg-secondary border border-subtle text-primary rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none max-h-24 overflow-y-auto"
+                  className="w-full border border-[#E8E3DA] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none max-h-24 overflow-y-auto"
                   style={{ fieldSizing: 'content' }}
                 />
                 {input.length > 200 && (
-                  <span className="absolute bottom-2 right-3 text-[10px] text-secondary">{input.length}/500</span>
+                  <span className="absolute bottom-2 right-3 text-[10px] text-muted">{input.length}/500</span>
                 )}
               </div>
               <button
                 onClick={() => sendMessage()}
                 disabled={!input.trim() || isLoading}
-                className="w-11 h-11 bg-gold rounded-xl flex items-center justify-center text-dark hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0 shadow-sm"
+                className="w-11 h-11 bg-gold rounded-xl flex items-center justify-center text-dark hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
                 aria-label="Send message"
               >
                 <Send size={18} />
               </button>
             </div>
-            <p className="text-[11px] text-secondary mt-2">Enter to send · Shift+Enter for new line</p>
+            <p className="text-[11px] text-muted mt-2">Enter to send · Shift+Enter for new line</p>
           </div>
         </div>
 
         {/* Right Crop Reference Panel */}
-        <div className="hidden xl:flex w-[280px] shrink-0 bg-secondary border border-subtle rounded-xl flex-col overflow-hidden shadow-sm">
-          <div className="px-4 py-3.5 border-b border-subtle">
-            <h3 className="font-semibold text-sm text-primary">Crop Quick Reference</h3>
+        <div className="hidden xl:flex w-[280px] shrink-0 bg-white border border-[#E8E3DA] rounded-xl flex-col overflow-hidden">
+          <div className="px-4 py-3.5 border-b border-[#E8E3DA]">
+            <h3 className="font-semibold text-sm text-dark">Crop Quick Reference</h3>
           </div>
           <div className="flex-1 overflow-y-auto p-3 custom-scrollbar space-y-2">
             {cropReferences.map(ref => (
-              <div key={ref.id} className="border border-subtle rounded-lg overflow-hidden bg-primary/30">
+              <div key={ref.id} className="border border-[#E8E3DA] rounded-lg overflow-hidden">
                 <button
                   onClick={() => setExpandedRef(expandedRef === ref.id ? null : ref.id)}
-                  className="w-full flex items-center justify-between p-3 text-left hover:bg-tertiary transition-colors"
+                  className="w-full flex items-center justify-between p-3 text-left hover:bg-[#F5F0E8] transition-colors"
                 >
-                  <span className="text-sm font-medium text-primary">{ref.title}</span>
-                  {expandedRef === ref.id ? <ChevronDown size={14} className="text-gold shrink-0" /> : <ChevronRight size={14} className="text-secondary shrink-0" />}
+                  <span className="text-sm font-medium text-dark">{ref.title}</span>
+                  {expandedRef === ref.id ? <ChevronDown size={14} className="text-gold shrink-0" /> : <ChevronRight size={14} className="text-muted shrink-0" />}
                 </button>
                 <AnimatePresence>
                   {expandedRef === ref.id && (
@@ -298,7 +295,7 @@ export default function AIChat() {
                       className="overflow-hidden"
                     >
                       <div
-                        className="px-3 pb-3 text-[12px] text-secondary leading-relaxed border-t border-subtle pt-2"
+                        className="px-3 pb-3 text-[12px] text-secondary leading-relaxed border-t border-[#F0EDE6] pt-2"
                         dangerouslySetInnerHTML={{ __html: ref.content.replace(/\n/g, '<br/>') }}
                       />
                     </motion.div>
