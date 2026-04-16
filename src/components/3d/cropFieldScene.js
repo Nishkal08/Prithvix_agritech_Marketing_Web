@@ -14,12 +14,12 @@ export function createCropFieldScene(canvas, options = {}) {
 
   // 2. Scene Configuration
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0xF5F0E8, 0.12); // Smooth background blending
+  scene.fog = new THREE.FogExp2(0xF5F0E8, 0.06); // Smoother, lighter background blending
 
   // 3. Grounded Camera
   // Using a grounded, human-scale perspective instead of top-down
   const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-  camera.position.set(2, 2.5, 9);
+  camera.position.set(2, 2.5, 7.5);
   camera.lookAt(0, -0.5, 0);
 
   // 4. Earthy Lighting Rig
@@ -228,7 +228,7 @@ export function createCropFieldScene(canvas, options = {}) {
     camera.position.y += (targetCamY - camera.position.y) * 0.03;
 
     // Organic breathing zoom
-    camera.position.z = 8 + Math.sin(time * 0.4) * 0.2;
+    camera.position.z = 7.5 + Math.sin(time * 0.4) * 0.2;
 
     camera.lookAt(0, -0.5, 0);
 

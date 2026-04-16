@@ -43,8 +43,8 @@ export default function CropField({ className = '' }) {
     <div 
       className={`relative ${className}`}
       style={{
-        maskImage: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 75%)',
-        WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 75%)'
+        maskImage: 'radial-gradient(circle at center, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%)',
+        WebkitMaskImage: 'radial-gradient(circle at center, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%)'
       }}
     >
       <canvas ref={canvasRef} className="w-full h-full" />
