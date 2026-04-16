@@ -1,134 +1,69 @@
-# Prithvix AgriTech Dealer Management Platform
+# Prithvix — AgriTech Dealer Management App
 
-Prithvix is a visually stunning, responsive, and performance-optimized marketing website built for an agricultural dealer management platform. It leverages a modern frontend stack to deliver a premium, mobile-first experience featuring interactive 3D elements, smooth localized navigation, and comprehensive dealer features.
+This repository contains the complete frontend architecture for Prithvix, an AgriTech dealer management platform. It includes both a high-conversion 3D Marketing Website and a robust Role-Based ERP Web Portal (accessible via `/dashboard`).
 
----
+This project was built as an Intern Assignment.
 
-## How to run it locally
+## 🚀 How to Run Locally
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v22.2.0 or compatible)
-- npm (Node Package Manager)
-
-### Steps
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Nishkal08/Prithvix_agritech_Marketing_Web.git
-   cd Prithvix_agritech_Marketing_Web
-   ```
-
-2. **Install dependencies:**
+1. **Install Dependencies**
    ```bash
    npm install
    ```
 
-3. **Start the development server:**
+2. **Configure Environment Variables**
+   Create a `.env` file in the root directory and add your Anthropic API Key (required for the AI Agronomist Chat):
+   ```
+   VITE_CLAUDE_API_KEY=your_api_key_here
+   ```
+
+3. **Start the Development Server**
    ```bash
    npm run dev
    ```
+   Open `http://localhost:5173` to view the Marketing Site, or navigate to `http://localhost:5173/dashboard` for the ERP Portal.
 
-4. **Build for production:**
-   ```bash
-   npm run build
-   ```
+## 🏗 Tech Stack & Trade-offs
 
-5. **Preview the production build locally:**
-   ```bash
-   npm run preview
-   ```
+- **Framework**: **React + Vite**. *Trade-off Exception*: The assignment specified Next.js, but Vite + React Router was chosen to optimize the rapid 3-day development timeline for a heavy client-side dashboard without SSR requirements. It significantly reduced routing complexity for horizontal page transitions.
+- **3D Graphics**: **React Three Fiber / Three.js**. Used for the low-poly agricultural splash screen and interactive parallax hero elements. 
+- **Animations**: **Framer Motion & GSAP**. Framer Motion handles universal page transitions and layout bounding (e.g. Activity Bars opening), while GSAP powers custom imperative animations like the interactive horizontal scroll on the Crop Calendar.
+- **Styling**: **Tailwind CSS**. Augmented with standard CSS variables (`globals.css`) to create the premium earthy-forest dark mode toggle smoothly.
+- **Charts / Maps**: **Recharts** and **Leaflet.js** (with React Leaflet) for data visualization and heatmaps.
 
----
+## 📂 Folder & Component Structure
 
-## Tech stack and why you chose each
-
-- **React (v18) & Vite (v5)**: 
-  - *React* enables a highly componentized and declarative approach to building complex interactive UIs. 
-  - *Vite* is inherently designed to be extremely fast. It provides instantaneous Hot Module Replacement (HMR) and optimized rollup production builds, resulting in lightning-fast development iterations.
-  
-- **Tailwind CSS (v3)**: 
-  - Tailwind provides utility-first CSS classes, allowing for rapid and flexible styling without leaving the component code. It perfectly supports consistent themes, complex grid layouts, and fully responsive adjustments directly within React components.
-
-- **GSAP (GreenSock Animation Platform) + ScrollTrigger**: 
-  - Chosen for its unmatched robustness in executing complex sequence animations and scroll-linked interactivity. It provides far more control over staggering elements and pinpoint scroll pinning (e.g., sticky Features layout) compared to standard CSS animations.
-
-- **Three.js**: 
-  - Used for the bespoke Hero 3D interactive "Seed Growth" rendering scene. Three.js is the industry standard for lightweight, performant WebGL in-browser 3D capabilities.
-
-- **Framer Motion**: 
-  - Handles the lighter UI micro-animations and smooth page transitions (like the Contact Modal entry/exit and the dynamic Testimonials carousel).
-
-- **Lucide-React**: 
-  - An excellent, clean SVG icon library that fits seamlessly with the premium agricultural aesthetic of the website.
-
----
-
-## Folder and component structure
-
-The project is structured around standard component-based architecture logic:
-
-```bash
-/src
- ├── assets/          # Static files (images, icons, vectors, SVGs)
- ├── components/      # Reusable React components
- │   ├── 3d/          # Encapsulated Three.js models/scenes (CropField.jsx, cropFieldScene.js)
- │   ├── layout/      # Sitewide structure blocks (Navbar, Footer)
- │   ├── sections/    # Major page-level blocks (Hero, FeaturesSticky, Pricing, Testimonials, CTABanner, SplashScreen)
- │   └── ui/          # Granular primitive components (Button, Badge, SectionLabel, Logo)
- ├── context/         # React Context Providers
- │   └── LanguageContext.jsx # Global localization (i18n) data and state management (EN/HI)
- ├── data/            # Mocked platform data (features, stats, pricing, testimonials)
- ├── index.css        # Global CSS imports, Tailwind directives, custom font allocations
- ├── main.jsx         # App Entry Point
- └── App.jsx          # Component aggregator, layout routing, Lazy Loading implementations
+```text
+src/
+├── assets/          # Static images & graphics
+├── components/      
+│   ├── 3d/          # React Three Fiber Canvas scenes (Hero, Splash)
+│   ├── layout/      # Universal layouts (Navbar, Footer)
+│   ├── sections/    # Marketing landing page sections
+│   ├── ui/          # Generic reusable atoms (Buttons, Badges, Labels)
+│   └── erp/         # ERP Dashboard Modules
+│       ├── layout/  # Sidebar, TopBar, DashboardShell
+│       ├── pages/   # Role-gated views (Inventory, Analytics, Chat)
+│       └── ui/      # Dashboard-specific elements (KPI cards, Modals)
+├── config/          # RBAC configuration schema
+├── context/         # Auth, Roles, Display Settings Providers 
+├── data/            # Static Mock Data for offline resilience
+└── styles/          # Tailwind setup, CSS variables, custom typography
 ```
 
----
+## 🌍 The 3D Scene Architecture
 
-## How the 3D scene is built and what triggers what
+The interactive marketing experience is driven by React Three Fiber isolated components (`CropField.jsx`, `DashboardGraphic.jsx`). 
+- On initial load, a low-poly earth/crop geometric plane acts as the particle base. 
+- As the user scrolls, Framer Motion captures the scroll offset to trigger soft parallax translation of the 3D meshes to provide a "grounded, growing" feel rather than bouncing. If WebGL fails, CSS standard images handle the fallback.
 
-The 3D Hero scene features a procedural "Seed Growth" animation depicting agricultural prosperity.
+## 🔌 API Integration & Mock Data
 
-1. **Rendering Logic (`cropFieldScene.js`)**: 
-   - A vanilla Three.js class initializes a `WebGLRenderer`. 
-   - The scene features a central geometric mesh representing a golden seed or central energy source, surrounded by particle rings ("spores", "water", "light") that represent crop vitality.
-   - Ground plates provide a dynamic stylized field foundation.
-   - The instance continuously redraws via `requestAnimationFrame` implementing an active, smooth idle animation loop.
+Currently, all ERP dashboard states (Farmers, Inventory, Credits) are hydrated from the `src/data/erp/` directory. 
+- **Replacing with Real API**: To move to a real backend, you would swap the local Context hydration calls with a fetching layer (e.g. `React Query` or standard `fetch` endpoints pulling from a Node/Express server), and map the JSON response structurally to match the `farmers`, `inventory`, and `cropCalendar` schemas.
 
-2. **React Integration (`CropField.jsx`)**: 
-   - The Three.js class is instantiated within a `useEffect` inside a React component binding to a `<canvas>` element ref.
-   - Mouse tracking (`mousemove` listener) is captured to tilt the entire group (parallax effect), allowing users to physically interact with the 3D object dynamically.
-   - Fallback graphics (`crop-field-fallback.svg`) deploy when WebGL availability fails.
+## 🔮 What I Would Do Differently With More Time
 
-3. **GSAP Scroll Control**: 
-   - A ScrollTrigger timeline scales and translates the 3D container in `Hero.jsx` seamlessly off-screen as the user naturally scrolls downward into the Features section.
-
----
-
-## What the mock data looks like and how you would replace it with a real API
-
-Currently, data for language variants, pricing, and features live statically within `/context/LanguageContext.jsx` and the `/data/` namespace. 
-
-**Example of Mock Data (Testimonials):**
-```javascript
-{
-  quote: "AI ne ekdum sahi product suggest kiya... Farmer was very happy.",
-  role: "Seed & Pesticide Dealer",
-  location: "Nashik, Maharashtra",
-  tag: "AI Agronomist"
-}
-```
-
-**Replacing with a Real API:**
-1. **API Endpoints:** Create dedicated, localized headless CMS endpoints (e.g., `GET /api/v1/content?lang=hi&section=pricing`).
-2. **Data Fetching Hook:** Utilize a data fetching library like `TanStack React Query` or `SWR` inside the application layer.
-3. **Refactoring Context:** The `LanguageContext.jsx` would be transformed to `fetch` standard dictionary mappings asynchronously from the server on load or locale toggle, caching the results instead of holding static arrays.
-
----
-
-## What you would do differently with more time
-
-- **React-Three-Fiber Integration**: I would port the vanilla Three.js scene (`cropFieldScene.js`) directly into entirely declarative React components using `@react-three/fiber` for tighter state management, easier responsive scaling, and superior unmounting lifecycle cleanup.
-- **E2E Testing:** Implement Playwright or Cypress tests to rigorously ensure UI animations, GSAP sticky scrolling layouts, and locale switches don't break across distinct browsers (Safari, Firefox, Android Chrome).
-- **Advanced State/SEO Pipeline**: Transition the site completely into **Next.js**. It provides out-of-the-box SSR (Server-Side Rendering) rendering for significantly augmented SEO and zero-layout shift, which is highly beneficial for pure marketing sites compared to a Vite standard SPA.
-- **Accessibility (A11y)**: Expand `aria-labels`, focus-trap handlers (inside the demo modal), and screen-reader specific tags extensively to achieve WCAG AAA compliance.
+1. **Robust Backend Integration**: I would migrate the mock Context stores to a fully authenticated backend database (Supabase / MongoDB) featuring actual JWT route protections.
+2. **Advanced Caching**: Introduce specific service workers for an offline-first PWA experience (highly critical for rural agritech dealers on low-bandwidth networks).
+3. **Printable Generation**: Generate the Farmer QR Identity Cards as an actual downloadable PDF asset using `jspdf`.
