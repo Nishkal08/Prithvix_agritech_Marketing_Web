@@ -28,7 +28,7 @@ const mockupComponents = {
 export default function FeaturesSticky() {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
   const { t } = useLanguage();
 
   useEffect(() => {

@@ -52,25 +52,25 @@ export default function Testimonials() {
         </div>
 
         {/* Carousel */}
-        <div className="max-w-2xl mx-auto relative">
+        <div className="max-w-2xl lg:max-w-4xl mx-auto relative px-0 md:px-12 lg:px-0">
           {/* Nav arrows */}
           <button
             onClick={prev}
-            className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-border flex items-center justify-center hover:bg-surface transition-colors z-30"
+            className="absolute left-[-0.5rem] md:left-0 lg:-left-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-border flex items-center justify-center hover:bg-surface transition-colors z-30 shadow-sm"
             aria-label="Previous testimonial"
           >
             <ChevronLeft size={18} className="text-dark" />
           </button>
           <button
             onClick={next}
-            className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-border flex items-center justify-center hover:bg-surface transition-colors z-30"
+            className="absolute right-[-0.5rem] md:right-0 lg:-right-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-border flex items-center justify-center hover:bg-surface transition-colors z-30 shadow-sm"
             aria-label="Next testimonial"
           >
             <ChevronRight size={18} className="text-dark" />
           </button>
 
           {/* Card */}
-          <div className="overflow-hidden min-h-[300px] flex items-center justify-center">
+          <div className="overflow-hidden min-h-[300px] flex items-center justify-center px-4 md:px-0">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={current}
@@ -82,7 +82,7 @@ export default function Testimonials() {
                 transition={{ duration: 0.4, ease: 'easeInOut' }}
                 className="w-full"
               >
-                <div className="bg-white border border-border rounded-xl p-8 md:p-10">
+                <div className="bg-white border border-border rounded-xl p-8 md:p-10 lg:p-12 shadow-sm">
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: 5 }).map((_, i) => (

@@ -53,9 +53,9 @@ export default function Hero({ onRequestDemo }) {
     <section
       ref={sectionRef}
       id="hero"
-      className="min-h-screen bg-offwhite pt-20 pb-16 md:pt-28 md:pb-24 relative overflow-hidden flex items-center"
+      className="min-h-screen bg-offwhite pt-24 pb-12 lg:pt-32 lg:pb-24 relative overflow-hidden flex items-center"
     >
-      <div className="section-container flex flex-col lg:flex-row items-center gap-12 lg:gap-8 w-full">
+      <div className="section-container flex flex-col lg:flex-row items-center gap-12 lg:gap-8 w-full mt-8 lg:mt-0">
         {/* Left — Text Content (55%) */}
         <div className="w-full lg:w-[55%] relative z-10">
           {/* Label */}
@@ -116,7 +116,7 @@ export default function Hero({ onRequestDemo }) {
         </div>
 
         {/* Right — 3D Canvas (45%) */}
-        <div className="relative w-full lg:w-[45%] h-[280px] md:h-[420px] lg:h-[560px]">
+        <div className="relative w-full lg:w-[45%] h-[320px] md:h-[420px] lg:h-[560px]">
           <CropField className="w-full h-full" />
         </div>
       </div>
