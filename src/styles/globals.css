@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-forest:     #1A3C2B;
+  --color-gold:       #D4A853;
+  --color-offwhite:   #F5F0E8;
+  --color-dark:       #0E1A14;
+  --color-muted:      #6B7C6E;
+  --color-surface:    #EDE8DF;
+  --color-border:     #D6CFC3;
+  --color-gold-light: #F0D898;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--color-offwhite);
+  color: var(--color-dark);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-dark);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-offwhite);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest);
+}
+
+/* Utility classes */
+.section-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* Hero headline sizing */
+.hero-headline {
+  font-size: clamp(52px, 6vw, 88px);
+  line-height: 1.05;
+}
+
+.section-headline {
+  font-size: clamp(36px, 4vw, 56px);
+}
+
+.sub-headline {
+  font-size: clamp(22px, 2.5vw, 32px);
+}
+
+/* Grain noise background for overlay */
+.grain-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}

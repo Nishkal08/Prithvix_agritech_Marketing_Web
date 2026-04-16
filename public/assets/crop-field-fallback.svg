@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"
+     fill="none">
+  <!-- Dark soil base -->
+  <ellipse cx="200" cy="420" rx="180" ry="40" fill="#2C1810"/>
+  <!-- Crack lines -->
+  <line x1="140" y1="395" x2="200" y2="410" stroke="#B8860B" stroke-width="2"/>
+  <line x1="260" y1="395" x2="200" y2="410" stroke="#B8860B" stroke-width="2"/>
+  <!-- Seed shell lower -->
+  <ellipse cx="200" cy="380" rx="45" ry="28" fill="#1A3C2B"/>
+  <!-- Gold glow -->
+  <ellipse cx="200" cy="365" rx="18" ry="12" fill="#D4A853" opacity="0.8"/>
+  <!-- Stem -->
+  <path d="M200 360 Q210 300 200 200" stroke="#8B9D4F"
+        stroke-width="10" stroke-linecap="round" fill="none"/>
+  <!-- Left leaf -->
+  <path d="M205 310 Q155 280 145 240 Q175 260 205 310Z"
+        fill="#3A6B2E"/>
+  <!-- Right leaf -->
+  <path d="M198 280 Q248 250 258 210 Q228 230 198 280Z"
+        fill="#4A8040"/>
+  <!-- Top leaves -->
+  <path d="M200 210 Q165 180 160 145 Q185 165 200 210Z"
+        fill="#3A6B2E"/>
+  <path d="M200 210 Q235 175 242 138 Q218 160 200 210Z"
+        fill="#4A8040"/>
+  <!-- Data pills -->
+  <rect x="100" y="290" width="36" height="14" rx="7" fill="#D4A853"
+        opacity="0.85"/>
+  <rect x="264" y="260" width="30" height="12" rx="6" fill="#D4A853"
+        opacity="0.85"/>
+  <rect x="88"  y="215" width="28" height="12" rx="6" fill="#D4A853"
+        opacity="0.75"/>
+  <rect x="276" y="195" width="32" height="12" rx="6" fill="#D4A853"
+        opacity="0.75"/>
+  <!-- Roots -->
+  <path d="M185 395 Q155 430 130 460" stroke="#5C3A1E" stroke-width="4"
+        stroke-linecap="round" fill="none"/>
+  <path d="M215 395 Q245 435 270 465" stroke="#5C3A1E" stroke-width="4"
+        stroke-linecap="round" fill="none"/>
+  <path d="M200 398 Q195 445 192 475" stroke="#5C3A1E" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+  <!-- Root gold dots -->
+  <circle cx="148" cy="440" r="4" fill="#D4A853"/>
+  <circle cx="252" cy="445" r="4" fill="#D4A853"/>
+  <circle cx="193" cy="450" r="3" fill="#D4A853"/>
+</svg>
