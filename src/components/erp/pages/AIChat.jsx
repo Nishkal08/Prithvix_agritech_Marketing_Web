@@ -100,8 +100,15 @@ export default function AIChat() {
       const assistantContent = response.content[0]?.text || 'Sorry, I could not generate a response.';
       setMessages(prev => [...prev, { role: 'assistant', content: assistantContent, timestamp: new Date().toISOString() }]);
     } catch (err) {
-      setError(`Connection error: ${err.message}`);
-      setMessages(prev => prev.slice(0, -1)); // Remove user message on error
+      if (err.message.includes('credit balance') || err.message.includes('400')) {
+        // Provide a robust mock fallback so the demo continues to work for the user
+        const mockResponse = "I'm currently in Demo Mode as the Live API is out of credits. However, if this were a real query about crops or inputs, I'd analyze it and give you specific dosage and disease management advice! 🌱";
+        setMessages(prev => [...prev, { role: 'assistant', content: mockResponse, timestamp: new Date().toISOString() }]);
+        setError('API Offline (Credit Limit). Showing demo response instead.');
+      } else {
+        setError(`Connection error: ${err.message}`);
+        setMessages(prev => prev.slice(0, -1)); // Remove user message on error
+      }
     } finally {
       setIsLoading(false);
     }
