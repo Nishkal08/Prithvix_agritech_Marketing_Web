@@ -59,26 +59,26 @@ function FarmerDetailPanel({ farmer, onClose }) {
         animate={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-0 right-0 bottom-0 w-full md:w-[480px] bg-white z-50 shadow-2xl flex flex-col overflow-hidden"
+        className="fixed top-0 right-0 bottom-0 w-full md:w-[480px] bg-panel z-50 shadow-2xl flex flex-col overflow-hidden"
       >
         {/* Header */}
-        <div className="p-5 border-b border-[#E8E3DA] flex items-start gap-4">
+        <div className="p-5 border-b border-border flex items-start gap-4">
           <FarmerAvatar initials={farmer.avatar} size="lg" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="font-display font-bold text-xl text-dark">{farmer.name}</h2>
               <LoyaltyBadge tier={farmer.loyaltyTier} />
             </div>
-            <p className="text-secondary text-sm mt-0.5">{farmer.village}</p>
+            <p className="text-muted text-sm mt-0.5">{farmer.village}</p>
             <p className="text-muted text-xs font-mono mt-0.5">{farmer.id}</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-[#F0EDE6] rounded-lg transition-colors text-muted hover:text-dark">
+          <button onClick={onClose} className="p-2 hover:bg-surface/60 rounded-lg transition-colors text-muted hover:text-dark">
             <X size={20} />
           </button>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-3 divide-x divide-[#E8E3DA] border-b border-[#E8E3DA] bg-[#FAFAF8]">
+        <div className="grid grid-cols-3 divide-x divide-[#E8E3DA] border-b border-border bg-surface/30">
           {[
             { label: 'Total Visits', value: farmer.totalVisits },
             { label: 'Outstanding', value: farmer.outstandingAmount > 0 ? `₹${farmer.outstandingAmount.toLocaleString('en-IN')}` : '₹0' },
@@ -92,13 +92,13 @@ function FarmerDetailPanel({ farmer, onClose }) {
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-[#E8E3DA] shrink-0 overflow-x-auto">
+        <div className="flex border-b border-border shrink-0 overflow-x-auto">
           {tabs.map((t) => (
             <button
               key={t}
               onClick={() => setActiveTab(t)}
               className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
-                activeTab === t ? 'border-gold text-dark' : 'border-transparent text-muted hover:text-secondary'
+                activeTab === t ? 'border-gold text-dark' : 'border-transparent text-muted hover:text-muted'
               }`}
             >
               {t}
@@ -124,14 +124,14 @@ function FarmerDetailPanel({ farmer, onClose }) {
                 <p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Crops</p>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {farmer.crops.map(c => (
-                    <span key={c} className="text-xs bg-[#EDE8DF] text-secondary px-3 py-1 rounded-full">{c}</span>
+                    <span key={c} className="text-xs bg-surface text-muted px-3 py-1 rounded-full">{c}</span>
                   ))}
                 </div>
               </div>
               {farmer.notes && (
                 <div>
                   <p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Notes</p>
-                  <p className="text-sm text-secondary italic">"{farmer.notes}"</p>
+                  <p className="text-sm text-muted italic">"{farmer.notes}"</p>
                 </div>
               )}
             </div>
@@ -145,7 +145,7 @@ function FarmerDetailPanel({ farmer, onClose }) {
                   <p className="text-sm text-dark">{v.notes}</p>
                   {v.products?.length > 0 && (
                     <div className="flex gap-2 mt-2 flex-wrap">
-                      {v.products.map(p => <span key={p} className="text-[11px] bg-[#EDE8DF] px-2 py-0.5 rounded">{p}</span>)}
+                      {v.products.map(p => <span key={p} className="text-[11px] bg-surface px-2 py-0.5 rounded">{p}</span>)}
                     </div>
                   )}
                 </div>
@@ -159,7 +159,7 @@ function FarmerDetailPanel({ farmer, onClose }) {
             <div>
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#F5F0E8] text-muted text-[11px] uppercase tracking-wider">
+                  <tr className="bg-surface text-muted text-[11px] uppercase tracking-wider">
                     <th className="text-left px-3 py-2">Date</th>
                     <th className="text-left px-3 py-2">Type</th>
                     <th className="text-right px-3 py-2">Amount</th>
@@ -168,10 +168,10 @@ function FarmerDetailPanel({ farmer, onClose }) {
                 </thead>
                 <tbody>
                   {farmer.creditLedger?.length > 0 ? farmer.creditLedger.map((tx, i) => (
-                    <tr key={i} className="border-b border-[#F5F0E8]">
+                    <tr key={i} className="border-b border-border/40">
                       <td className="px-3 py-3 text-muted text-xs">{format(new Date(tx.date), 'dd MMM yy')}</td>
                       <td className="px-3 py-3">
-                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${tx.type === 'Credit' ? 'bg-[#F5D1D1] text-[#7C1A1A]' : 'bg-[#D1E8DA] text-[#1A3C2B]'}`}>
+                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${tx.type === 'Credit' ? 'bg-red-900/30 text-red-400' : 'bg-forest/15 text-forest'}`}>
                           {tx.type}
                         </span>
                       </td>
@@ -199,7 +199,7 @@ function FarmerDetailPanel({ farmer, onClose }) {
                 <div className="flex gap-2 flex-wrap justify-center">
                   {farmer.crops.map(c => <span key={c} className="text-[10px] bg-forest/50 text-gold px-2 py-0.5 rounded">{c}</span>)}
                 </div>
-                <div className="bg-white p-3 rounded-xl">
+                <div className="bg-panel p-3 rounded-xl">
                   <QRCodeSVG id="farmer-qr-svg" value={farmer.qrData} size={140} />
                 </div>
               </div>
@@ -213,7 +213,7 @@ function FarmerDetailPanel({ farmer, onClose }) {
                 </button>
                 <button
                   onClick={() => window.print()}
-                  className="flex-1 flex justify-center items-center gap-2 bg-white border border-[#E8E3DA] text-dark text-sm font-medium py-2.5 rounded-lg hover:bg-[#F0EDE6] transition-colors"
+                  className="flex-1 flex justify-center items-center gap-2 bg-panel border border-border text-dark text-sm font-medium py-2.5 rounded-lg hover:bg-surface/60 transition-colors"
                 >
                   <Printer size={16} /> Print
                 </button>
@@ -263,7 +263,7 @@ export default function FarmerManagement() {
         </div>
       ),
     },
-    { id: 'mobile', header: 'Mobile', accessorKey: 'mobile', cell: ({ getValue }) => <span className="text-sm font-mono text-secondary">{getValue()}</span> },
+    { id: 'mobile', header: 'Mobile', accessorKey: 'mobile', cell: ({ getValue }) => <span className="text-sm font-mono text-muted">{getValue()}</span> },
     { id: 'cropCycle', header: 'Crop Cycle', accessorKey: 'cropCycle', cell: ({ getValue }) => <span className="text-sm text-dark">{getValue()}</span> },
     { id: 'loyalty', header: 'Loyalty', accessorKey: 'loyaltyTier', cell: ({ getValue }) => <LoyaltyBadge tier={getValue()} /> },
     { id: 'creditStatus', header: 'Credit', accessorKey: 'creditStatus', cell: ({ getValue }) => <StatusBadge status={getValue()} /> },
@@ -286,7 +286,7 @@ export default function FarmerManagement() {
       cell: ({ row }) => (
         <button
           onClick={(e) => { e.stopPropagation(); setSelectedFarmer(row.original); }}
-          className="p-2 hover:bg-[#F0EDE6] rounded-lg transition-colors text-muted hover:text-dark"
+          className="p-2 hover:bg-surface/60 rounded-lg transition-colors text-muted hover:text-dark"
           aria-label={`View ${row.original.name}`}
         >
           <Eye size={16} />
@@ -317,7 +317,7 @@ export default function FarmerManagement() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <h1 className="font-display font-bold text-2xl text-dark">Farmers</h1>
-            <span className="text-xs bg-[#EDE8DF] text-secondary font-semibold px-2.5 py-1 rounded-full">{filteredData.length} total</span>
+            <span className="text-xs bg-surface text-muted font-semibold px-2.5 py-1 rounded-full">{filteredData.length} total</span>
           </div>
           <div className="flex items-center gap-3">
             <input
@@ -325,7 +325,7 @@ export default function FarmerManagement() {
               placeholder="Search farmers..."
               value={globalFilter}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="border border-[#E8E3DA] rounded-lg px-3.5 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 w-48"
+              className="border border-border rounded-lg px-3.5 py-2 text-sm bg-panel focus:outline-none focus:ring-2 focus:ring-gold/50 w-48"
             />
             <button className="bg-gold text-dark text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold/90 transition-colors whitespace-nowrap">
               + Register Farmer
@@ -347,7 +347,7 @@ export default function FarmerManagement() {
                   key={o}
                   onClick={() => setter(o)}
                   className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
-                    state === o ? 'bg-dark text-offwhite' : 'bg-white border border-[#E8E3DA] text-secondary hover:bg-[#F0EDE6]'
+                    state === o ? 'bg-dark text-offwhite' : 'bg-panel border border-border text-muted hover:bg-surface/60'
                   }`}
                 >
                   {o}
@@ -358,11 +358,11 @@ export default function FarmerManagement() {
         </div>
 
         {/* Table */}
-        <div className="bg-white border border-[#E8E3DA] rounded-xl overflow-hidden">
+        <div className="bg-panel border border-border rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#F5F0E8] border-b border-[#E8E3DA]">
+                <tr className="bg-surface border-b border-border">
                   {table.getFlatHeaders().map((header) => (
                     <th key={header.id} scope="col" className="px-4 py-3 text-left text-[11px] font-semibold text-muted uppercase tracking-wider whitespace-nowrap">
                       {flexRender(header.column.columnDef.header, header.getContext())}
@@ -378,7 +378,7 @@ export default function FarmerManagement() {
                     <tr
                       key={row.id}
                       onClick={() => setSelectedFarmer(row.original)}
-                      className={`border-b border-[#F5F0E8] last:border-0 cursor-pointer transition-colors hover:bg-[#F0EDE6] ${i % 2 === 1 ? 'bg-[#FAFAF8]' : 'bg-white'}`}
+                      className={`border-b border-border/40 last:border-0 cursor-pointer transition-colors hover:bg-surface/60 ${i % 2 === 1 ? 'bg-surface/30' : 'bg-panel'}`}
                       style={{ height: '52px' }}
                     >
                       {row.getVisibleCells().map((cell) => (
@@ -394,7 +394,7 @@ export default function FarmerManagement() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[#E8E3DA] bg-[#FAFAF8]">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-surface/30">
             <p className="text-[12px] text-muted">
               Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </p>
@@ -402,7 +402,7 @@ export default function FarmerManagement() {
               <button
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
-                className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6] transition-colors"
+                className="text-xs px-3 py-1.5 rounded border border-border disabled:opacity-40 hover:bg-surface/60 transition-colors"
               >
                 ← Prev
               </button>
@@ -411,7 +411,7 @@ export default function FarmerManagement() {
                   key={i}
                   onClick={() => table.setPageIndex(i)}
                   className={`text-xs w-8 h-8 rounded font-medium transition-colors ${
-                    table.getState().pagination.pageIndex === i ? 'bg-dark text-offwhite' : 'hover:bg-[#F0EDE6] text-secondary'
+                    table.getState().pagination.pageIndex === i ? 'bg-dark text-offwhite' : 'hover:bg-surface/60 text-muted'
                   }`}
                 >
                   {i + 1}
@@ -420,7 +420,7 @@ export default function FarmerManagement() {
               <button
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
-                className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6] transition-colors"
+                className="text-xs px-3 py-1.5 rounded border border-border disabled:opacity-40 hover:bg-surface/60 transition-colors"
               >
                 Next →
               </button>

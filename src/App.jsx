@@ -1,5 +1,6 @@
 import { useState, useCallback, Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { DashboardProvider } from './context/DashboardContext';
@@ -21,15 +22,16 @@ import Udhaar from './components/erp/pages/Udhaar';
 import Analytics from './components/erp/pages/Analytics';
 import AIChat from './components/erp/pages/AIChat';
 import Settings from './components/erp/pages/Settings';
+import CropCalendar from './components/erp/pages/CropCalendar';
 
 // Lazy load sections below the fold
 const FeaturesSticky = lazy(() => import('./components/sections/FeaturesSticky'));
-const StatsBar = lazy(() => import('./components/sections/StatsBar'));
-const HowItWorks = lazy(() => import('./components/sections/HowItWorks'));
-const Pricing = lazy(() => import('./components/sections/Pricing'));
-const Testimonials = lazy(() => import('./components/sections/Testimonials'));
-const CTABanner = lazy(() => import('./components/sections/CTABanner'));
-const Footer = lazy(() => import('./components/layout/Footer'));
+const StatsBar       = lazy(() => import('./components/sections/StatsBar'));
+const HowItWorks     = lazy(() => import('./components/sections/HowItWorks'));
+const Pricing        = lazy(() => import('./components/sections/Pricing'));
+const Testimonials   = lazy(() => import('./components/sections/Testimonials'));
+const CTABanner      = lazy(() => import('./components/sections/CTABanner'));
+const Footer         = lazy(() => import('./components/layout/Footer'));
 
 function SectionFallback() {
   return (
@@ -39,76 +41,81 @@ function SectionFallback() {
   );
 }
 
-// Extract the original static marketing site into a separate component
 function MarketingSite() {
   const [splashDone, setSplashDone] = useState(
     sessionStorage.getItem('splashSeen') === 'true'
   );
   const [contactOpen, setContactOpen] = useState(false);
 
-  const handleSplashComplete = useCallback(() => {
-    setSplashDone(true);
-  }, []);
-
-  const openContact = useCallback(() => {
-    setContactOpen(true);
-  }, []);
-
-  const closeContact = useCallback(() => {
-    setContactOpen(false);
-  }, []);
+  const handleSplashComplete = useCallback(() => setSplashDone(true), []);
+  const openContact  = useCallback(() => setContactOpen(true),  []);
+  const closeContact = useCallback(() => setContactOpen(false), []);
 
   return (
     <>
-      {/* Splash Screen */}
-      {!splashDone && (
-        <SplashScreen onComplete={handleSplashComplete} />
-      )}
+      {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
 
-      {/* Main Site */}
-      <div
-        className={`transition-opacity duration-600 ${
-          splashDone ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <div className={`transition-opacity duration-600 ${splashDone ? 'opacity-100' : 'opacity-0'}`}>
         <Navbar onRequestDemo={openContact} />
 
         <main>
           <Hero onRequestDemo={openContact} />
-
-          <Suspense fallback={<SectionFallback />}>
-            <FeaturesSticky />
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <StatsBar />
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <HowItWorks />
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <Pricing onRequestDemo={openContact} />
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <Testimonials />
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <CTABanner onRequestDemo={openContact} />
-          </Suspense>
+          <Suspense fallback={<SectionFallback />}><FeaturesSticky /></Suspense>
+          <Suspense fallback={<SectionFallback />}><StatsBar /></Suspense>
+          <Suspense fallback={<SectionFallback />}><HowItWorks /></Suspense>
+          <Suspense fallback={<SectionFallback />}><Pricing onRequestDemo={openContact} /></Suspense>
+          <Suspense fallback={<SectionFallback />}><Testimonials /></Suspense>
+          <Suspense fallback={<SectionFallback />}><CTABanner onRequestDemo={openContact} /></Suspense>
         </main>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Footer />
-        </Suspense>
+        <Suspense fallback={<SectionFallback />}><Footer /></Suspense>
       </div>
 
-      {/* Contact Modal */}
       <ContactModal isOpen={contactOpen} onClose={closeContact} />
     </>
+  );
+}
+
+/** Page transition wrapper used at the route level */
+function RouteTransitionWrapper({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={   { opacity: 0, y: -6 }}
+      transition={{ duration: 0.22, ease: 'easeInOut' }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Marketing Site */}
+        <Route path="/" element={<RouteTransitionWrapper><MarketingSite /></RouteTransitionWrapper>} />
+
+        {/* ERP Portal */}
+        <Route path="/dashboard/login" element={<RouteTransitionWrapper><Login /></RouteTransitionWrapper>} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<DashboardShell />}>
+            <Route index                  element={<DashboardHome />} />
+            <Route path="farmers"         element={<FarmerManagement />} />
+            <Route path="inventory"       element={<Inventory />} />
+            <Route path="udhaar"          element={<Udhaar />} />
+            <Route path="analytics"       element={<Analytics />} />
+            <Route path="crop-calendar"   element={<CropCalendar />} />
+            <Route path="chat"            element={<AIChat />} />
+            <Route path="settings"        element={<Settings />} />
+          </Route>
+        </Route>
+      </Routes>
+    </AnimatePresence>
   );
 }
 
@@ -117,26 +124,7 @@ export default function App() {
     <LanguageProvider>
       <AuthProvider>
         <DashboardProvider>
-          <Routes>
-            {/* Marketing Site */}
-            <Route path="/" element={<MarketingSite />} />
-            
-            {/* ERP Portal */}
-            <Route path="/dashboard/login" element={<Login />} />
-            
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<DashboardShell />}>
-                <Route index element={<DashboardHome />} />
-                <Route path="farmers" element={<FarmerManagement />} />
-                <Route path="inventory" element={<Inventory />} />
-                <Route path="udhaar" element={<Udhaar />} />
-                <Route path="analytics" element={<Analytics />} />
-                <Route path="chat" element={<AIChat />} />
-                <Route path="settings" element={<Settings />} />
-              </Route>
-            </Route>
-
-          </Routes>
+          <AnimatedRoutes />
         </DashboardProvider>
       </AuthProvider>
     </LanguageProvider>

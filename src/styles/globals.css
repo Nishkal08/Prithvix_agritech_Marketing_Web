@@ -17,15 +17,20 @@
 }
 
 [data-theme='dark'] .erp-portal {
-  --color-forest:     13 27 19;   /* #0D1B13 */
+  /* Body background — deepest layer */
+  --color-offwhite:   10 21 16;   /* #0A1510 */
+  /* Cards & panels */
+  --color-surface:    18 30 23;   /* #121E17 */
+  --color-panel:      22 38 29;   /* #16261D */
+  /* Borders */
+  --color-border:     31 48 40;   /* #1F3028 */
+  /* Text */
+  --color-dark:       232 240 235;/* #E8F0EB */
+  --color-muted:      107 124 110;/* #6B7C6E */
+  /* Brand — unchanged */
+  --color-forest:     26 60 43;   /* #1A3C2B */
   --color-gold:       212 168 83; /* #D4A853 */
-  --color-offwhite:   18 24 21;   /* #121815 */
-  --color-dark:       245 240 232;/* #F5F0E8 */
-  --color-muted:      155 168 158;/* #9BA89E */
-  --color-surface:    24 36 29;   /* #18241D */
-  --color-border:     43 59 48;   /* #2B3B30 */
   --color-gold-light: 184 142 62; /* #B88E3E */
-  --color-panel:      24 36 29;   /* #18241D - same as surface for dark */
 }
 
 *, *::before, *::after {

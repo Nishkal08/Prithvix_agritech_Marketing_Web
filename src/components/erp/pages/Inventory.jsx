@@ -9,10 +9,10 @@ import SkeletonRow from '../ui/SkeletonRow';
 import { inventory } from '../../../data/erp/inventory';
 
 const CATEGORY_COLORS = {
-  Fertilizer: 'bg-[#D1E8DA] text-[#1A3C2B]',
-  Pesticide:  'bg-[#D4E8F5] text-[#1A3C7C]',
-  Seed:       'bg-[#F5ECD4] text-[#7C5C1A]',
-  Other:      'bg-[#EDE8DF] text-[#6B7C6E]',
+  Fertilizer: 'bg-forest/15 text-forest',
+  Pesticide:  'bg-blue-900/30 text-blue-400',
+  Seed:       'bg-gold/15 text-gold',
+  Other:      'bg-surface text-[#6B7C6E]',
 };
 
 function StockBar({ stock, minStock, maxStock, status }) {
@@ -21,7 +21,7 @@ function StockBar({ stock, minStock, maxStock, status }) {
   return (
     <div>
       <span className="text-sm font-medium text-dark block mb-1">{stock}</span>
-      <div className="h-1.5 bg-[#EDE8DF] rounded-full overflow-hidden w-24">
+      <div className="h-1.5 bg-surface rounded-full overflow-hidden w-24">
         <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: barColor }} />
       </div>
     </div>
@@ -64,7 +64,7 @@ export default function Inventory() {
         </span>
       ),
     },
-    { id: 'unit', header: 'Unit', accessorKey: 'unit', cell: ({ getValue }) => <span className="text-sm text-secondary">{getValue()}</span> },
+    { id: 'unit', header: 'Unit', accessorKey: 'unit', cell: ({ getValue }) => <span className="text-sm text-muted">{getValue()}</span> },
     { id: 'price', header: 'Price', accessorKey: 'price', cell: ({ getValue }) => <span className="text-sm font-mono font-medium text-dark text-right block">₹{getValue().toLocaleString('en-IN')}</span> },
     {
       id: 'stock', header: 'Stock', accessorKey: 'stock',
@@ -82,13 +82,13 @@ export default function Inventory() {
           {row.original.variants?.length > 0 && (
             <button
               onClick={(e) => { e.stopPropagation(); toggleRow(row.original.id); }}
-              className="p-1.5 hover:bg-[#F0EDE6] rounded transition-colors"
+              className="p-1.5 hover:bg-surface/60 rounded transition-colors"
               aria-label="Expand variants"
             >
               {expandedRows[row.original.id] ? <ChevronDown size={16} className="text-gold" /> : <ChevronRight size={16} className="text-muted" />}
             </button>
           )}
-          <button className="p-1.5 hover:bg-[#F0EDE6] rounded transition-colors text-muted hover:text-dark" aria-label="Edit">
+          <button className="p-1.5 hover:bg-surface/60 rounded transition-colors text-muted hover:text-dark" aria-label="Edit">
             <Edit size={15} />
           </button>
         </div>
@@ -123,7 +123,7 @@ export default function Inventory() {
             { label: 'Reorder Needed', value: reorderNeeded, color: 'text-[#D44A4A]' },
             { label: 'Total Stock Value', value: `₹${(totalValue / 100000).toFixed(1)}L`, color: 'text-[#1A3C2B]' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-white border border-[#E8E3DA] rounded-xl p-5">
+            <div key={label} className="bg-panel border border-border rounded-xl p-5">
               <p className="text-[12px] text-muted mb-2">{label}</p>
               <p className={`font-display font-bold text-3xl ${color}`}>{value}</p>
             </div>
@@ -131,11 +131,11 @@ export default function Inventory() {
         </div>
 
         {/* Table */}
-        <div className="bg-white border border-[#E8E3DA] rounded-xl overflow-hidden">
+        <div className="bg-panel border border-border rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#F5F0E8] border-b border-[#E8E3DA]">
+                <tr className="bg-surface border-b border-border">
                   {table.getFlatHeaders().map((header) => (
                     <th key={header.id} scope="col" className="px-4 py-3 text-left text-[11px] font-semibold text-muted uppercase tracking-wider whitespace-nowrap">
                       {flexRender(header.column.columnDef.header, header.getContext())}
@@ -151,7 +151,7 @@ export default function Inventory() {
                     <>
                       <tr
                         key={row.id}
-                        className={`border-b border-[#F5F0E8] last:border-0 transition-colors hover:bg-[#F0EDE6] ${i % 2 === 1 ? 'bg-[#FAFAF8]' : 'bg-white'}`}
+                        className={`border-b border-border/40 last:border-0 transition-colors hover:bg-surface/60 ${i % 2 === 1 ? 'bg-surface/30' : 'bg-panel'}`}
                         style={{ height: '52px' }}
                       >
                         {row.getVisibleCells().map((cell) => (
@@ -170,7 +170,7 @@ export default function Inventory() {
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.2 }}
-                                className="overflow-hidden bg-[#FAFAF8] border-b border-[#E8E3DA]"
+                                className="overflow-hidden bg-surface/30 border-b border-border"
                               >
                                 <div className="px-8 py-3">
                                   <p className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Variants</p>
@@ -185,7 +185,7 @@ export default function Inventory() {
                                     </thead>
                                     <tbody>
                                       {row.original.variants.map((v) => (
-                                        <tr key={v.sku} className="border-t border-[#EDE8DF]">
+                                        <tr key={v.sku} className="border-t border-border/40">
                                           <td className="py-2 font-mono text-muted">{v.sku}</td>
                                           <td className="py-2 text-dark">{v.size}</td>
                                           <td className="py-2 text-right text-dark font-medium">{v.stock}</td>
@@ -208,11 +208,11 @@ export default function Inventory() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[#E8E3DA] bg-[#FAFAF8]">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-surface/30">
             <p className="text-[12px] text-muted">Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</p>
             <div className="flex items-center gap-2">
-              <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6]">← Prev</button>
-              <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6]">Next →</button>
+              <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="text-xs px-3 py-1.5 rounded border border-border disabled:opacity-40 hover:bg-surface/60">← Prev</button>
+              <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="text-xs px-3 py-1.5 rounded border border-border disabled:opacity-40 hover:bg-surface/60">Next →</button>
             </div>
           </div>
         </div>
