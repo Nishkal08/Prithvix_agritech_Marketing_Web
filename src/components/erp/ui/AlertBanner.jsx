@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, AlertCircle } from 'lucide-react';
 
 export default function AlertBanner({ count = 3, onViewOverdue, onDismiss }) {
   const [dismissed, setDismissed] = useState(

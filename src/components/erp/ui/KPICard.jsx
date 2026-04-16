@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { UserPlus, MapPin, TrendingUp, AlertCircle } from 'lucide-react';
+import { UserPlus, MapPin, TrendingUp, AlertCircle, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 const ICON_MAP = {
   UserPlus: UserPlus,
