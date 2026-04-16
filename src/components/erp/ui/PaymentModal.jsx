@@ -15,12 +15,12 @@ function Toast({ message, onDismiss }) {
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.95 }}
-      className="fixed bottom-6 right-6 bg-[#1A3C2B] text-offwhite px-5 py-3.5 rounded-xl shadow-2xl z-[100] flex items-center gap-3 max-w-sm"
+      className="fixed bottom-6 right-6 bg-forest text-offwhite px-5 py-3.5 rounded-xl shadow-2xl z-[100] flex items-center gap-3 max-w-sm"
       role="alert"
       aria-live="polite"
     >
-      <div className="w-6 h-6 rounded-full bg-[#2D9E5A] flex items-center justify-center shrink-0">
-        <Check size={14} />
+      <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center shrink-0">
+        <Check size={14} className="text-forest" />
       </div>
       <p className="text-sm font-medium">{message}</p>
     </motion.div>
@@ -66,13 +66,13 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl"
+          className="bg-panel border border-border rounded-2xl w-full max-w-md p-6 shadow-2xl"
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-display font-bold text-xl text-dark">Record Payment</h2>
-            <button onClick={onClose} className="p-2 hover:bg-[#F0EDE6] rounded-lg transition-colors">
-              <X size={20} className="text-muted" />
+            <button onClick={onClose} className="p-2 hover:bg-surface rounded-lg transition-colors">
+              <X size={20} className="text-muted hover:text-dark" />
             </button>
           </div>
 
@@ -80,7 +80,7 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
             {/* Farmer (pre-filled) */}
             <div>
               <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Farmer</label>
-              <input value={farmer?.farmerName || farmer?.name || ''} readOnly className="w-full bg-[#F5F0E8] border border-[#E8E3DA] rounded-lg px-4 py-2.5 text-sm text-dark cursor-not-allowed" />
+              <input value={farmer?.farmerName || farmer?.name || ''} readOnly className="w-full bg-surface/50 border border-border rounded-lg px-4 py-2.5 text-sm text-muted cursor-not-allowed" />
             </div>
 
             {/* Amount */}
@@ -93,7 +93,7 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0"
-                  className="w-full border border-[#E8E3DA] rounded-lg pl-8 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50"
+                  className="w-full border border-border bg-surface text-dark rounded-lg pl-8 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:bg-panel"
                 />
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
                     type="button"
                     onClick={() => setMode(m)}
                     className={`flex-1 py-2.5 text-sm font-medium rounded-lg border transition-colors ${
-                      mode === m ? 'bg-dark text-offwhite border-dark' : 'border-[#E8E3DA] text-secondary hover:bg-[#F0EDE6]'
+                      mode === m ? 'bg-dark text-offwhite border-dark' : 'border-border text-muted hover:bg-surface hover:text-dark'
                     }`}
                   >
                     {m}
@@ -125,12 +125,12 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                 >
-                  <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">UPI Reference ID</label>
+                  <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5 pt-2">UPI Reference ID</label>
                   <input
                     value={upiRef}
                     onChange={(e) => setUpiRef(e.target.value)}
                     placeholder="TXNID123456"
-                    className="w-full border border-[#E8E3DA] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50"
+                    className="w-full border border-border bg-surface text-dark rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:bg-panel"
                   />
                 </motion.div>
               )}
@@ -144,7 +144,7 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="Payment for seed purchase..."
                 rows={2}
-                className="w-full border border-[#E8E3DA] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none"
+                className="w-full border border-border bg-surface text-dark rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none focus:bg-panel"
               />
             </div>
 
@@ -155,11 +155,11 @@ export default function PaymentModal({ farmer, onClose, onSuccess }) {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full border border-[#E8E3DA] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50"
+                className="w-full border border-border bg-surface text-dark rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:bg-panel"
               />
             </div>
 
-            {error && <p className="text-[#D44A4A] text-xs font-medium">{error}</p>}
+            {error && <p className="text-red-500 text-xs font-medium">{error}</p>}
 
             <button
               type="submit"
