@@ -9,7 +9,7 @@ export default function DashboardShell() {
   const { isCollapsed } = useContext(DashboardContext);
 
   return (
-    <div className="flex min-h-screen bg-offwhite font-ui text-dark">
+    <div className="erp-portal flex min-h-screen bg-offwhite font-ui text-dark transition-colors duration-300">
       {/* Desktop Sidebar */}
       <Sidebar />
 

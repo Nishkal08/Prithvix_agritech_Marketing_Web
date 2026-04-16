@@ -83,36 +83,23 @@ export default function AIChat() {
     setError(null);
 
     try {
-      // Functional Mock Response Simulation (to avoid API key / CORS errors in demo)
-      setTimeout(() => {
-        let assistantContent = "Here's what you need to know about that crop. Use NPK 19:19:19 with proper irrigation. Do you have any specific concerns about pests?";
-        const lowerInput = content.toLowerCase();
-        
-        if (lowerInput.includes('wheat') || lowerInput.includes('disease')) {
-          assistantContent = "For wheat crop diseases like yellow rust, I recommend applying Propiconazole 25% EC at 1 ml/liter of water. Notice any yellowing on the leaves?";
-        } else if (lowerInput.includes('dap') || lowerInput.includes('npk')) {
-          assistantContent = "DAP is high in Phosphorus (18-46-0), excellent for root growth during sowing. NPK is balanced and great for overall growth later. What stage is the crop in right now?";
-        } else if (lowerInput.includes('kharif') || lowerInput.includes('season')) {
-          assistantContent = "For the Kharif season, focus on high-yield varieties of Paddy or Soybean. Ensure your soil is well-drained. What specific crops is the farmer planning to sow?";
-        } else if (lowerInput.includes('pesticide') || lowerInput.includes('dosage')) {
-          assistantContent = "Generally, for standard pesticide application like Imidacloprid, the dosage is 0.5 - 1 ml per liter of water depending on the pest pressure. Which pest are you trying to control?";
-        } else {
-          // If a language other than english is active, mock translation slightly
-          if (activeLang === 'hi') {
-            assistantContent = "नमस्ते, मैं आपकी कैसे मदद कर सकता हूँ? कृपया अपनी फसल या समस्या के बारे में अधिक जानकारी दें।";
-          } else if (activeLang === 'mr') {
-            assistantContent = "नमस्कार! मी तुम्हाला कशी मदत करू शकतो? कृपया तुमच्या पिकाबद्दल अधिक सांगा.";
-          } else if (activeLang === 'gu') {
-            assistantContent = "નમસ્તે, હું તમને કેવી રીતે મદદ કરી શકું? કૃપા કરીને તમારા પાક વિશે વધુ કહો.";
-          }
-        }
-        
-        setMessages(prev => [...prev, { role: 'assistant', content: assistantContent, timestamp: new Date().toISOString() }]);
-        setIsLoading(false);
-      }, 1500); // Simulate network delay
+      const client = new Anthropic({ baseURL: '/api/claude', apiKey: 'proxy', dangerouslyAllowBrowser: true });
+      
+      const history = messages.map(m => ({ role: m.role, content: m.content }));
+      
+      const response = await client.messages.create({
+        model: 'claude-3-5-sonnet-latest',
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        messages: [...history, userMsg],
+      });
+
+      const assistantContent = response.content[0]?.text || 'Sorry, I could not generate a response.';
+      setMessages(prev => [...prev, { role: 'assistant', content: assistantContent, timestamp: new Date().toISOString() }]);
     } catch (err) {
-      setError('Connection error. Please check your network and try again.');
-      setMessages(prev => prev.slice(0, -1));
+      setError(`Connection error: ${err.message}`);
+      setMessages(prev => prev.slice(0, -1)); // Remove user message on error
+    } finally {
       setIsLoading(false);
     }
   }, [input, messages, isLoading, activeLang]);

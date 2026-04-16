@@ -30,7 +30,7 @@ export default function TopBar() {
     : 'Home';
 
   return (
-    <header className="h-[60px] bg-white border-b border-[#E8E3DA] flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 font-ui transition-colors">
+    <header className="h-[60px] bg-offwhite border-b border-border flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 font-ui transition-colors duration-300">
       
       {/* Left: Breadcrumbs */}
       <div className="flex items-center text-[13px] md:text-sm font-medium shrink-0">

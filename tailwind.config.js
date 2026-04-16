@@ -7,14 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        forest:    'var(--color-forest)',
-        gold:      'var(--color-gold)',
-        'gold-light': 'var(--color-gold-light)',
-        offwhite:  'var(--color-offwhite)',
-        dark:      'var(--color-dark)',
-        muted:     'var(--color-muted)',
-        surface:   'var(--color-surface)',
-        border:    'var(--color-border)',
+        forest:    'rgb(var(--color-forest) / <alpha-value>)',
+        gold:      'rgb(var(--color-gold) / <alpha-value>)',
+        'gold-light': 'rgb(var(--color-gold-light) / <alpha-value>)',
+        offwhite:  'rgb(var(--color-offwhite) / <alpha-value>)',
+        dark:      'rgb(var(--color-dark) / <alpha-value>)',
+        muted:     'rgb(var(--color-muted) / <alpha-value>)',
+        surface:   'rgb(var(--color-surface) / <alpha-value>)',
+        border:    'rgb(var(--color-border) / <alpha-value>)',
       },
       fontFamily: {
         display: ['Syne', 'sans-serif'],

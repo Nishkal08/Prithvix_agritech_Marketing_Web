@@ -5,25 +5,25 @@
 @tailwind utilities;
 
 :root {
-  --color-forest:     #1A3C2B;
-  --color-gold:       #D4A853;
-  --color-offwhite:   #F5F0E8;
-  --color-dark:       #0E1A14;
-  --color-muted:      #6B7C6E;
-  --color-surface:    #EDE8DF;
-  --color-border:     #D6CFC3;
-  --color-gold-light: #F0D898;
+  --color-forest:     26 60 43;   /* #1A3C2B */
+  --color-gold:       212 168 83; /* #D4A853 */
+  --color-offwhite:   245 240 232;/* #F5F0E8 */
+  --color-dark:       14 26 20;   /* #0E1A14 */
+  --color-muted:      107 124 110;/* #6B7C6E */
+  --color-surface:    237 232 223;/* #EDE8DF */
+  --color-border:     214 207 195;/* #D6CFC3 */
+  --color-gold-light: 240 216 152;/* #F0D898 */
 }
 
-:root[data-theme='dark'] {
-  --color-forest:     #0D1B13;
-  --color-gold:       #D4A853;
-  --color-offwhite:   #121815;
-  --color-dark:       #F5F0E8;
-  --color-muted:      #9BA89E;
-  --color-surface:    #18241D;
-  --color-border:     #2B3B30;
-  --color-gold-light: #B88E3E;
+[data-theme='dark'] .erp-portal {
+  --color-forest:     13 27 19;   /* #0D1B13 */
+  --color-gold:       212 168 83; /* #D4A853 */
+  --color-offwhite:   18 24 21;   /* #121815 */
+  --color-dark:       245 240 232;/* #F5F0E8 */
+  --color-muted:      155 168 158;/* #9BA89E */
+  --color-surface:    24 36 29;   /* #18241D */
+  --color-border:     43 59 48;   /* #2B3B30 */
+  --color-gold-light: 184 142 62; /* #B88E3E */
 }
 
 *, *::before, *::after {
@@ -40,8 +40,8 @@ html {
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: var(--color-offwhite);
-  color: var(--color-dark);
+  background-color: rgb(var(--color-offwhite));
+  color: rgb(var(--color-dark));
   line-height: 1.7;
   overflow-x: hidden;
 }
@@ -53,8 +53,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::selection {
-  background-color: var(--color-gold);
-  color: var(--color-dark);
+  background-color: rgb(var(--color-gold));
+  color: rgb(var(--color-dark));
 }
 
 /* Scrollbar */
@@ -63,16 +63,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-offwhite);
+  background: rgb(var(--color-offwhite));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted);
+  background: rgb(var(--color-muted));
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-forest);
+  background: rgb(var(--color-forest));
 }
 
 /* Utility classes */
