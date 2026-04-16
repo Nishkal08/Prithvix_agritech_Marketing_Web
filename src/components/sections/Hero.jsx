@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { Leaf, Globe } from 'lucide-react';
 import Button from '../ui/Button';
 import CropField from '../3d/CropField';
+import AuroraBackground from '../ui/AuroraBackground';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function Hero({ onRequestDemo }) {
@@ -55,7 +56,8 @@ export default function Hero({ onRequestDemo }) {
       id="hero"
       className="min-h-screen bg-offwhite pt-24 pb-12 lg:pt-32 lg:pb-24 relative overflow-hidden flex items-center"
     >
-      <div className="section-container flex flex-col lg:flex-row items-center gap-12 lg:gap-8 w-full mt-8 lg:mt-0">
+      <AuroraBackground />
+      <div className="section-container flex flex-col lg:flex-row items-center gap-12 lg:gap-8 w-full mt-8 lg:mt-0 relative z-10">
         {/* Left — Text Content (55%) */}
         <div className="w-full lg:w-[55%] relative z-10">
           {/* Label */}
