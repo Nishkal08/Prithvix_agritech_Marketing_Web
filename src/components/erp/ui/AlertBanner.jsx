@@ -21,20 +21,23 @@ export default function AlertBanner({ count = 3, onViewOverdue, onDismiss }) {
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
-        className="bg-[#FDF3D0] border-l-[3px] border-[#D4A853] rounded-lg px-5 py-3.5 flex items-center justify-between gap-4 mb-6"
+        className="bg-[#FDF3D0] dark:bg-[#2C2410] border border-[#D4A853]/30 rounded-xl p-4 flex items-center justify-between shadow-sm mb-6"
       >
-        <div className="flex items-center gap-3">
-          <span className="text-[#D4A853] text-lg">⚠</span>
-          <p className="text-sm font-medium text-[#7C5C1A]">
-            <span className="font-bold">{count} farmers</span> are overdue on credit repayment.
-          </p>
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-[#D4A853]/20 flex items-center justify-center text-[#D4A853]">
+            <AlertCircle size={20} />
+          </div>
+          <div>
+            <h4 className="font-semibold text-sm text-[#7C5C1A] dark:text-[#F0D898]">Action Required</h4>
+            <p className="text-[13px] text-[#7C5C1A]/80 dark:text-[#F0D898]/80 mt-0.5">You have {count} farmers with overdue payments. Please follow up today.</p>
+          </div>
         </div>
-        <div className="flex items-center gap-3 shrink-0">
-          <button
+        <div className="flex items-center gap-4">
+          <button 
             onClick={onViewOverdue}
-            className="text-[#7C5C1A] text-xs font-semibold underline hover:no-underline transition-all"
+            className="text-xs font-bold uppercase tracking-wider text-[#7C5C1A] dark:text-[#F0D898] hover:underline"
           >
-            View Overdue
+            View All
           </button>
           <button
             onClick={handleDismiss}

@@ -46,33 +46,33 @@ export default function Udhaar() {
     <PageTransition>
       <div className="space-y-5">
         {/* Header */}
-        <h1 className="font-display font-bold text-2xl text-dark">Udhaar / Credit</h1>
+        <h1 className="font-display font-bold text-2xl text-primary">Udhaar / Credit</h1>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { label: 'Total Credit Exposure', value: `₹${totalExposure.toLocaleString('en-IN')}`, color: 'text-dark' },
+            { label: 'Total Credit Exposure', value: `₹${totalExposure.toLocaleString('en-IN')}`, color: 'text-primary' },
             { label: 'Overdue (30+ days)', value: `₹${overdueAmount.toLocaleString('en-IN')}`, color: 'text-[#D44A4A]' },
-            { label: 'Farmers with Dues', value: data.length, color: 'text-[#D4A853]' },
+            { label: 'Farmers with Dues', value: data.length, color: 'text-gold' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-white border border-[#E8E3DA] rounded-xl p-5">
-              <p className="text-[12px] text-muted mb-2">{label}</p>
+            <div key={label} className="bg-secondary border border-subtle rounded-xl p-5 shadow-sm">
+              <p className="text-[11px] font-bold text-secondary uppercase tracking-wider mb-2">{label}</p>
               <p className={`font-display font-bold text-3xl ${color}`}>{value}</p>
             </div>
           ))}
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-[#E8E3DA] relative">
+        <div className="flex border-b border-subtle relative">
           {[
             { id: 'all', label: 'All Dues' },
-            { id: 'overdue', label: `Overdue (30+ days)` },
+            { id: 'overdue', label: 'Overdue (30+ days)' },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors ${
-                activeTab === tab.id ? 'border-gold text-dark' : 'border-transparent text-muted hover:text-secondary'
+              className={`px-5 py-3 text-sm font-bold border-b-2 transition-colors ${
+                activeTab === tab.id ? 'border-gold text-primary bg-gold/5' : 'border-transparent text-secondary hover:text-primary hover:bg-tertiary'
               }`}
             >
               {tab.label}
@@ -81,13 +81,13 @@ export default function Udhaar() {
         </div>
 
         {/* Credit Table */}
-        <div className="bg-white border border-[#E8E3DA] rounded-xl overflow-hidden">
+        <div className="bg-secondary border border-subtle rounded-xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#F5F0E8] border-b border-[#E8E3DA]">
+                <tr className="bg-tertiary border-b border-subtle">
                   {['Farmer', 'Amount Due', 'Days Overdue', 'Last Payment', 'Credit Usage', 'Action'].map(h => (
-                    <th key={h} scope="col" className="px-4 py-3 text-left text-[11px] font-semibold text-muted uppercase tracking-wider whitespace-nowrap">{h}</th>
+                    <th key={h} scope="col" className="px-4 py-3 text-left text-[10px] font-bold text-secondary uppercase tracking-wider whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -96,10 +96,10 @@ export default function Udhaar() {
                   Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} cols={6} />)
                 ) : displayed.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="text-center py-16 text-muted text-sm">
-                      <div className="text-4xl mb-3">✓</div>
-                      <p className="font-semibold text-[#2D9E5A] text-base">All clear! No outstanding dues.</p>
-                      <p className="text-muted text-sm mt-1">All farmers are up to date.</p>
+                    <td colSpan={6} className="text-center py-20 text-secondary text-sm">
+                      <div className="text-5xl mb-4 bg-tertiary w-16 h-16 rounded-full flex items-center justify-center mx-auto border border-subtle shadow-inner">✓</div>
+                      <p className="font-bold text-[#2D9E5A] text-lg uppercase tracking-tight">All clear! No outstanding dues.</p>
+                      <p className="text-secondary/60 text-[12px] mt-1 font-medium italic">Your books are clean. All farmers are up to date.</p>
                     </td>
                   </tr>
                 ) : (
@@ -109,13 +109,13 @@ export default function Udhaar() {
                       const utilPct = Math.min(100, Math.round((row.amountDue / row.creditLimit) * 100));
                       const daysStatus = getDaysStatus(row.daysOverdue);
                       return (
-                        <tr key={row.farmerId} className={`border-b border-[#F5F0E8] last:border-0 ${i % 2 === 1 ? 'bg-[#FAFAF8]' : 'bg-white'}`} style={{ height: '52px' }}>
+                        <tr key={row.farmerId} className={`border-b border-subtle last:border-0 transition-colors hover:bg-tertiary/50 ${i % 2 === 1 ? 'bg-primary/5' : 'bg-secondary'}`} style={{ height: '52px' }}>
                           <td className="px-4 py-2">
                             <div className="flex items-center gap-3">
                               <FarmerAvatar initials={row.avatar} size="sm" />
                               <div>
-                                <p className="font-medium text-sm text-dark">{row.farmerName}</p>
-                                <p className="text-[12px] text-muted">{row.village}</p>
+                                <p className="font-bold text-sm text-primary uppercase tracking-tight">{row.farmerName}</p>
+                                <p className="text-[12px] text-secondary font-medium">{row.village}</p>
                               </div>
                             </div>
                           </td>
@@ -125,31 +125,31 @@ export default function Udhaar() {
                           <td className="px-4 py-2">
                             <StatusBadge status={daysStatus} />
                             {row.daysOverdue > 0 && (
-                              <p className="text-[11px] text-muted mt-0.5">{row.daysOverdue} days</p>
+                              <p className="text-[10px] text-secondary/60 mt-0.5 font-bold uppercase">{row.daysOverdue} days</p>
                             )}
                           </td>
                           <td className="px-4 py-2">
-                            <p className="text-sm text-dark">{row.lastPaymentDate && row.lastPaymentDate !== 'N/A' ? format(new Date(row.lastPaymentDate), 'dd MMM yyyy') : 'N/A'}</p>
-                            {row.lastPaymentAmount > 0 && <p className="text-[12px] text-muted">₹{row.lastPaymentAmount.toLocaleString('en-IN')}</p>}
+                            <p className="text-[13px] text-primary font-medium">{row.lastPaymentDate && row.lastPaymentDate !== 'N/A' ? format(new Date(row.lastPaymentDate), 'dd MMM yyyy') : 'N/A'}</p>
+                            {row.lastPaymentAmount > 0 && <p className="text-[11px] text-secondary font-mono">₹{row.lastPaymentAmount.toLocaleString('en-IN')}</p>}
                           </td>
                           <td className="px-4 py-2 w-40">
                             <div className="flex items-center gap-2">
-                              <div className="flex-1 h-1.5 bg-[#EDE8DF] rounded-full overflow-hidden">
+                              <div className="flex-1 h-1.5 bg-tertiary rounded-full overflow-hidden border border-subtle/50">
                                 <div
-                                  className="h-full rounded-full"
+                                  className="h-full rounded-full shadow-inner"
                                   style={{
                                     width: `${utilPct}%`,
-                                    backgroundColor: utilPct >= 80 ? '#D44A4A' : utilPct >= 50 ? '#D4A853' : '#1A3C2B'
+                                    backgroundColor: utilPct >= 80 ? '#D44A4A' : utilPct >= 50 ? '#D4A853' : '#2D9E5A'
                                   }}
                                 />
                               </div>
-                              <span className="text-[11px] text-muted shrink-0">{utilPct}%</span>
+                              <span className="text-[11px] font-bold text-secondary shrink-0">{utilPct}%</span>
                             </div>
                           </td>
-                          <td className="px-4 py-2">
+                          <td className="px-4 py-2 text-right">
                             <button
                               onClick={() => setSelectedFarmer(row)}
-                              className="text-xs bg-[#EDE8DF] hover:bg-[#D4A853]/20 text-dark font-semibold px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+                              className="text-[11px] bg-gold text-dark font-bold px-3.5 py-1.5 rounded-lg transition-all hover:scale-105 shadow-sm active:scale-95 whitespace-nowrap"
                             >
                               Record Payment
                             </button>

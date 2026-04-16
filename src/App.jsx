@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { DashboardProvider } from './context/DashboardContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Existing Marketing Layout
 import Navbar from './components/layout/Navbar';
@@ -114,31 +115,33 @@ function MarketingSite() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <DashboardProvider>
-          <Routes>
-            {/* Marketing Site */}
-            <Route path="/" element={<MarketingSite />} />
-            
-            {/* ERP Portal */}
-            <Route path="/dashboard/login" element={<Login />} />
-            
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<DashboardShell />}>
-                <Route index element={<DashboardHome />} />
-                <Route path="farmers" element={<FarmerManagement />} />
-                <Route path="inventory" element={<Inventory />} />
-                <Route path="udhaar" element={<Udhaar />} />
-                <Route path="analytics" element={<Analytics />} />
-                <Route path="chat" element={<AIChat />} />
-                <Route path="settings" element={<Settings />} />
+    <ThemeProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <DashboardProvider>
+            <Routes>
+              {/* Marketing Site */}
+              <Route path="/" element={<MarketingSite />} />
+              
+              {/* ERP Portal */}
+              <Route path="/dashboard/login" element={<Login />} />
+              
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<DashboardShell />}>
+                  <Route index element={<DashboardHome />} />
+                  <Route path="farmers" element={<FarmerManagement />} />
+                  <Route path="inventory" element={<Inventory />} />
+                  <Route path="udhaar" element={<Udhaar />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="chat" element={<AIChat />} />
+                  <Route path="settings" element={<Settings />} />
+                </Route>
               </Route>
-            </Route>
 
-          </Routes>
-        </DashboardProvider>
-      </AuthProvider>
-    </LanguageProvider>
+            </Routes>
+          </DashboardProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

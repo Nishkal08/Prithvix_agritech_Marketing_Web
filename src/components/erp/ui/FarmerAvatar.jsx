@@ -6,7 +6,7 @@ export default function FarmerAvatar({ initials, size = 'md' }) {
   };
   
   return (
-    <div className={`${sizes[size]} rounded-full bg-forest flex items-center justify-center text-gold font-bold shrink-0`}>
+    <div className={`${sizes[size]} rounded-full bg-forest flex items-center justify-center text-gold font-bold shrink-0 shadow-md border border-gold/30 hover:scale-105 transition-transform cursor-default`}>
       {initials}
     </div>
   );

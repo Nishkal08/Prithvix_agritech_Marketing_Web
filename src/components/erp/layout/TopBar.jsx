@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Search, Bell, Sun } from 'lucide-react';
+import { Search, Bell, Sun, Moon } from 'lucide-react';
 import { AuthContext } from '../../../context/AuthContext';
+import { useTheme } from '../../../context/ThemeContext';
 
 export default function TopBar() {
   const { user } = useContext(AuthContext);
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
   // Simple breadcrumb generation
@@ -14,7 +16,7 @@ export default function TopBar() {
     : 'Home';
 
   return (
-    <header className="h-[60px] bg-white border-b border-[#E8E3DA] flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 font-ui">
+    <header className="h-[60px] bg-secondary border-b border-subtle flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 font-ui">
       
       {/* Left: Breadcrumbs */}
       <div className="flex items-center text-[13px] md:text-sm font-medium shrink-0">
@@ -40,9 +42,13 @@ export default function TopBar() {
 
         {/* Action Icons */}
         <div className="flex items-center gap-2 border-l border-[#E8E3DA] pl-4">
-          {/* Theme Toggle placeholder */}
-          <button className="p-2 text-secondary hover:text-dark hover:bg-[#F0EDE6] rounded-full transition-colors hidden md:block">
-            <Sun size={18} />
+          {/* Theme Toggle */}
+          <button 
+            onClick={toggleTheme}
+            className="p-2 text-secondary hover:text-dark hover:bg-tertiary rounded-full transition-colors hidden md:block"
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
           
           {/* Notifications */}

@@ -59,46 +59,46 @@ function FarmerDetailPanel({ farmer, onClose }) {
         animate={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-0 right-0 bottom-0 w-full md:w-[480px] bg-white z-50 shadow-2xl flex flex-col overflow-hidden"
+        className="fixed top-0 right-0 bottom-0 w-full md:w-[480px] bg-secondary z-50 shadow-2xl flex flex-col overflow-hidden border-l border-subtle"
       >
         {/* Header */}
-        <div className="p-5 border-b border-[#E8E3DA] flex items-start gap-4">
+        <div className="p-5 border-b border-subtle flex items-start gap-4">
           <FarmerAvatar initials={farmer.avatar} size="lg" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="font-display font-bold text-xl text-dark">{farmer.name}</h2>
+              <h2 className="font-display font-bold text-xl text-primary">{farmer.name}</h2>
               <LoyaltyBadge tier={farmer.loyaltyTier} />
             </div>
             <p className="text-secondary text-sm mt-0.5">{farmer.village}</p>
-            <p className="text-muted text-xs font-mono mt-0.5">{farmer.id}</p>
+            <p className="text-secondary/60 text-xs font-mono mt-0.5 uppercase tracking-tight">{farmer.id}</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-[#F0EDE6] rounded-lg transition-colors text-muted hover:text-dark">
+          <button onClick={onClose} className="p-2 hover:bg-tertiary rounded-lg transition-colors text-secondary hover:text-primary">
             <X size={20} />
           </button>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-3 divide-x divide-[#E8E3DA] border-b border-[#E8E3DA] bg-[#FAFAF8]">
+        <div className="grid grid-cols-3 divide-x divide-subtle border-b border-subtle bg-tertiary">
           {[
             { label: 'Total Visits', value: farmer.totalVisits },
             { label: 'Outstanding', value: farmer.outstandingAmount > 0 ? `₹${farmer.outstandingAmount.toLocaleString('en-IN')}` : '₹0' },
             { label: 'Member Since', value: format(new Date(farmer.registeredAt), 'MMM yy') },
           ].map(({ label, value }) => (
             <div key={label} className="p-4 text-center">
-              <p className="font-display font-bold text-lg text-dark">{value}</p>
-              <p className="text-[11px] text-muted mt-0.5">{label}</p>
+              <p className="font-display font-bold text-lg text-primary">{value}</p>
+              <p className="text-[11px] text-secondary mt-0.5 font-medium uppercase tracking-wider">{label}</p>
             </div>
           ))}
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-[#E8E3DA] shrink-0 overflow-x-auto">
+        <div className="flex border-b border-subtle shrink-0 overflow-x-auto bg-secondary">
           {tabs.map((t) => (
             <button
               key={t}
               onClick={() => setActiveTab(t)}
               className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
-                activeTab === t ? 'border-gold text-dark' : 'border-transparent text-muted hover:text-secondary'
+                activeTab === t ? 'border-gold text-primary bg-gold/5' : 'border-transparent text-secondary hover:text-primary hover:bg-tertiary'
               }`}
             >
               {t}
@@ -111,75 +111,75 @@ function FarmerDetailPanel({ farmer, onClose }) {
           {activeTab === 'Profile' && (
             <div className="space-y-5">
               <div className="grid grid-cols-2 gap-4">
-                <div><p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Mobile</p><p className="text-sm font-medium text-dark">{farmer.mobile}</p></div>
-                <div><p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Crop Cycle</p><p className="text-sm font-medium text-dark">{farmer.cropCycle}</p></div>
-                <div><p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Credit Status</p><StatusBadge status={farmer.creditStatus} /></div>
-                <div><p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Last Visit</p><p className="text-sm font-medium text-dark">{farmer.lastVisit ? formatDistanceToNow(new Date(farmer.lastVisit), { addSuffix: true }) : 'N/A'}</p></div>
+                <div><p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Mobile</p><p className="text-sm font-medium text-primary">{farmer.mobile}</p></div>
+                <div><p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Crop Cycle</p><p className="text-sm font-medium text-primary">{farmer.cropCycle}</p></div>
+                <div><p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Credit Status</p><StatusBadge status={farmer.creditStatus} /></div>
+                <div><p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Last Visit</p><p className="text-sm font-medium text-primary">{farmer.lastVisit ? formatDistanceToNow(new Date(farmer.lastVisit), { addSuffix: true }) : 'N/A'}</p></div>
               </div>
               <div>
-                <p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Address</p>
-                <p className="text-sm text-dark">{farmer.address}</p>
+                <p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Address</p>
+                <p className="text-sm text-primary leading-relaxed">{farmer.address}</p>
               </div>
               <div>
-                <p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Crops</p>
+                <p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Crops</p>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {farmer.crops.map(c => (
-                    <span key={c} className="text-xs bg-[#EDE8DF] text-secondary px-3 py-1 rounded-full">{c}</span>
+                    <span key={c} className="text-xs bg-tertiary text-secondary px-3 py-1 rounded-full border border-subtle">{c}</span>
                   ))}
                 </div>
               </div>
               {farmer.notes && (
                 <div>
-                  <p className="text-[11px] text-muted mb-1 uppercase tracking-wider">Notes</p>
-                  <p className="text-sm text-secondary italic">"{farmer.notes}"</p>
+                  <p className="text-[11px] text-secondary/60 mb-1 uppercase tracking-wider font-semibold">Notes</p>
+                  <p className="text-sm text-secondary italic border-l-2 border-gold/30 pl-3">"{farmer.notes}"</p>
                 </div>
               )}
             </div>
           )}
 
           {activeTab === 'Visit History' && (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {farmer.visitHistory?.length > 0 ? farmer.visitHistory.map((v, i) => (
-                <div key={i} className="border-l-[3px] border-gold pl-4 py-2">
-                  <p className="text-xs font-bold text-gold mb-1">{format(new Date(v.date), 'dd MMM yyyy')}</p>
-                  <p className="text-sm text-dark">{v.notes}</p>
+                <div key={i} className="border-l-[3px] border-gold bg-tertiary/50 p-3 rounded-r-lg">
+                  <p className="text-[11px] font-bold text-gold uppercase tracking-wider mb-1">{format(new Date(v.date), 'dd MMM yyyy')}</p>
+                  <p className="text-sm text-primary leading-relaxed">{v.notes}</p>
                   {v.products?.length > 0 && (
                     <div className="flex gap-2 mt-2 flex-wrap">
-                      {v.products.map(p => <span key={p} className="text-[11px] bg-[#EDE8DF] px-2 py-0.5 rounded">{p}</span>)}
+                      {v.products.map(p => <span key={p} className="text-[10px] bg-secondary text-secondary border border-subtle px-2 py-0.5 rounded shadow-sm">{p}</span>)}
                     </div>
                   )}
                 </div>
               )) : (
-                <p className="text-center text-muted text-sm py-8">No visit records yet.</p>
+                <p className="text-center text-secondary text-sm py-8 italic">No visit records yet.</p>
               )}
             </div>
           )}
 
           {activeTab === 'Credit Ledger' && (
-            <div>
+            <div className="rounded-lg border border-subtle overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#F5F0E8] text-muted text-[11px] uppercase tracking-wider">
-                    <th className="text-left px-3 py-2">Date</th>
-                    <th className="text-left px-3 py-2">Type</th>
-                    <th className="text-right px-3 py-2">Amount</th>
-                    <th className="text-right px-3 py-2">Balance</th>
+                  <tr className="bg-tertiary text-secondary text-[10px] font-semibold uppercase tracking-wider">
+                    <th className="text-left px-3 py-2.5">Date</th>
+                    <th className="text-left px-3 py-2.5">Type</th>
+                    <th className="text-right px-3 py-2.5">Amount</th>
+                    <th className="text-right px-3 py-2.5">Balance</th>
                   </tr>
                 </thead>
                 <tbody>
                   {farmer.creditLedger?.length > 0 ? farmer.creditLedger.map((tx, i) => (
-                    <tr key={i} className="border-b border-[#F5F0E8]">
-                      <td className="px-3 py-3 text-muted text-xs">{format(new Date(tx.date), 'dd MMM yy')}</td>
+                    <tr key={i} className="border-b border-subtle last:border-0 hover:bg-tertiary/30 transition-colors">
+                      <td className="px-3 py-3 text-secondary text-xs">{format(new Date(tx.date), 'dd MMM yy')}</td>
                       <td className="px-3 py-3">
-                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${tx.type === 'Credit' ? 'bg-[#F5D1D1] text-[#7C1A1A]' : 'bg-[#D1E8DA] text-[#1A3C2B]'}`}>
-                          {tx.type}
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${tx.type === 'Credit' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'}`}>
+                          {tx.type.toUpperCase()}
                         </span>
                       </td>
-                      <td className="px-3 py-3 text-right font-mono text-xs">₹{tx.amount.toLocaleString('en-IN')}</td>
-                      <td className="px-3 py-3 text-right font-mono text-xs font-bold">₹{tx.balance.toLocaleString('en-IN')}</td>
+                      <td className="px-3 py-3 text-right font-mono text-xs text-primary">₹{tx.amount.toLocaleString('en-IN')}</td>
+                      <td className="px-3 py-3 text-right font-mono text-xs font-bold text-primary">₹{tx.balance.toLocaleString('en-IN')}</td>
                     </tr>
                   )) : (
-                    <tr><td colSpan={4} className="text-center text-muted py-8">No transactions yet.</td></tr>
+                    <tr><td colSpan={4} className="text-center text-secondary py-8 italic font-light">No transactions yet.</td></tr>
                   )}
                 </tbody>
               </table>
@@ -188,18 +188,19 @@ function FarmerDetailPanel({ farmer, onClose }) {
 
           {activeTab === 'QR Card' && (
             <div className="flex flex-col items-center gap-5">
-              <div className="bg-dark text-offwhite rounded-2xl p-6 w-full max-w-[280px] flex flex-col items-center gap-4">
-                <div className="text-xs text-gold uppercase tracking-widest font-semibold">Prithvix Farmer ID</div>
+              <div className="bg-tertiary text-primary rounded-2xl p-6 w-full max-w-[280px] flex flex-col items-center gap-4 border border-subtle shadow-lg overflow-hidden relative group">
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-gold" />
+                <div className="text-[10px] text-gold uppercase tracking-[0.2em] font-bold">Prithvix Farmer ID</div>
                 <FarmerAvatar initials={farmer.avatar} size="lg" />
                 <div className="text-center">
-                  <p className="font-display font-bold text-xl">{farmer.name}</p>
-                  <p className="text-muted text-xs mt-1">{farmer.village}</p>
-                  <p className="text-muted text-[10px] font-mono mt-0.5">{farmer.id}</p>
+                  <p className="font-display font-bold text-xl text-primary">{farmer.name}</p>
+                  <p className="text-secondary text-xs mt-1 font-medium">{farmer.village}</p>
+                  <p className="text-secondary/50 text-[10px] font-mono mt-0.5 uppercase tracking-wider">{farmer.id}</p>
                 </div>
-                <div className="flex gap-2 flex-wrap justify-center">
-                  {farmer.crops.map(c => <span key={c} className="text-[10px] bg-forest/50 text-gold px-2 py-0.5 rounded">{c}</span>)}
+                <div className="flex gap-1.5 flex-wrap justify-center border-y border-subtle/50 py-3 w-full">
+                  {farmer.crops.map(c => <span key={c} className="text-[9px] font-bold uppercase bg-forest text-gold px-2 py-1 rounded shadow-sm">{c}</span>)}
                 </div>
-                <div className="bg-white p-3 rounded-xl">
+                <div className="bg-white p-3 rounded-xl shadow-inner group-hover:scale-105 transition-transform">
                   <QRCodeSVG id="farmer-qr-svg" value={farmer.qrData} size={140} />
                 </div>
               </div>
@@ -207,13 +208,13 @@ function FarmerDetailPanel({ farmer, onClose }) {
               <div className="flex gap-3 w-full max-w-[280px]">
                 <button
                   onClick={handleDownloadQR}
-                  className="flex-1 flex justify-center items-center gap-2 bg-gold text-dark text-sm font-semibold py-2.5 rounded-lg hover:bg-gold/90 transition-colors"
+                  className="flex-1 flex justify-center items-center gap-2 bg-gold text-dark text-sm font-bold py-2.5 rounded-lg hover:bg-gold/90 transition-colors shadow-sm"
                 >
-                  <Download size={16} /> Download QR
+                  <Download size={16} /> QR
                 </button>
                 <button
                   onClick={() => window.print()}
-                  className="flex-1 flex justify-center items-center gap-2 bg-white border border-[#E8E3DA] text-dark text-sm font-medium py-2.5 rounded-lg hover:bg-[#F0EDE6] transition-colors"
+                  className="flex-1 flex justify-center items-center gap-2 bg-secondary border border-subtle text-primary text-sm font-bold py-2.5 rounded-lg hover:bg-tertiary transition-colors shadow-sm"
                 >
                   <Printer size={16} /> Print
                 </button>
@@ -257,17 +258,18 @@ export default function FarmerManagement() {
         <div className="flex items-center gap-3">
           <FarmerAvatar initials={row.original.avatar} size="sm" />
           <div>
-            <p className="font-medium text-sm text-dark">{row.original.name}</p>
-            <p className="text-[12px] text-muted">{row.original.village}</p>
+            <p className="font-medium text-sm text-primary">{row.original.name}</p>
+            <p className="text-[12px] text-secondary">{row.original.village}</p>
           </div>
         </div>
       ),
     },
     { id: 'mobile', header: 'Mobile', accessorKey: 'mobile', cell: ({ getValue }) => <span className="text-sm font-mono text-secondary">{getValue()}</span> },
-    { id: 'cropCycle', header: 'Crop Cycle', accessorKey: 'cropCycle', cell: ({ getValue }) => <span className="text-sm text-dark">{getValue()}</span> },
+    { id: 'cropCycle', header: 'Crop Cycle', accessorKey: 'cropCycle', cell: ({ getValue }) => <span className="text-sm text-primary">{getValue()}</span> },
     { id: 'loyalty', header: 'Loyalty', accessorKey: 'loyaltyTier', cell: ({ getValue }) => <LoyaltyBadge tier={getValue()} /> },
     { id: 'creditStatus', header: 'Credit', accessorKey: 'creditStatus', cell: ({ getValue }) => <StatusBadge status={getValue()} /> },
-    { id: 'visits', header: 'Visits', accessorKey: 'totalVisits', cell: ({ getValue }) => <span className="text-sm text-right block text-dark font-medium">{getValue()}</span> },
+    { id: 'visits', header: 'Visits', accessorKey: 'totalVisits', cell: ({ getValue }) => <span className="text-sm text-right block text-primary font-medium">{getValue()}</span> },
+
     {
       id: 'outstanding', header: 'Outstanding', accessorKey: 'outstandingAmount',
       cell: ({ getValue }) => {
@@ -286,7 +288,7 @@ export default function FarmerManagement() {
       cell: ({ row }) => (
         <button
           onClick={(e) => { e.stopPropagation(); setSelectedFarmer(row.original); }}
-          className="p-2 hover:bg-[#F0EDE6] rounded-lg transition-colors text-muted hover:text-dark"
+          className="p-2 hover:bg-tertiary rounded-lg transition-colors text-secondary hover:text-primary"
           aria-label={`View ${row.original.name}`}
         >
           <Eye size={16} />
@@ -316,8 +318,8 @@ export default function FarmerManagement() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <h1 className="font-display font-bold text-2xl text-dark">Farmers</h1>
-            <span className="text-xs bg-[#EDE8DF] text-secondary font-semibold px-2.5 py-1 rounded-full">{filteredData.length} total</span>
+            <h1 className="font-display font-bold text-2xl text-primary">Farmers</h1>
+            <span className="text-xs bg-tertiary text-secondary font-bold px-3 py-1 rounded-full border border-subtle shadow-sm">{filteredData.length} Farmers</span>
           </div>
           <div className="flex items-center gap-3">
             <input
@@ -325,10 +327,10 @@ export default function FarmerManagement() {
               placeholder="Search farmers..."
               value={globalFilter}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="border border-[#E8E3DA] rounded-lg px-3.5 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 w-48"
+              className="border border-subtle rounded-lg px-3.5 py-2 text-sm bg-secondary text-primary focus:outline-none focus:ring-2 focus:ring-gold/50 w-48 shadow-sm"
             />
-            <button className="bg-gold text-dark text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold/90 transition-colors whitespace-nowrap">
-              + Register Farmer
+            <button className="bg-gold text-dark text-sm font-bold px-4 py-2 rounded-lg hover:bg-gold/90 transition-colors whitespace-nowrap shadow-sm">
+              + New Farmer
             </button>
           </div>
         </div>
@@ -341,13 +343,13 @@ export default function FarmerManagement() {
             { label: 'Credit', options: CREDIT_OPTIONS, state: creditFilter, setter: setCreditFilter },
           ].map(({ label, options, state, setter }) => (
             <div key={label} className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-semibold text-muted uppercase tracking-wider">{label}:</span>
+              <span className="text-[10px] font-bold text-secondary uppercase tracking-[0.1em] ml-2">{label}</span>
               {options.map((o) => (
                 <button
                   key={o}
                   onClick={() => setter(o)}
-                  className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
-                    state === o ? 'bg-dark text-offwhite' : 'bg-white border border-[#E8E3DA] text-secondary hover:bg-[#F0EDE6]'
+                  className={`text-[11px] px-3.5 py-1.5 rounded-full font-bold transition-all border ${
+                    state === o ? 'bg-gold border-gold text-dark shadow-sm' : 'bg-secondary border-subtle text-secondary hover:bg-tertiary'
                   }`}
                 >
                   {o}
@@ -358,13 +360,13 @@ export default function FarmerManagement() {
         </div>
 
         {/* Table */}
-        <div className="bg-white border border-[#E8E3DA] rounded-xl overflow-hidden">
+        <div className="bg-secondary border border-subtle rounded-xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#F5F0E8] border-b border-[#E8E3DA]">
+                <tr className="bg-tertiary border-b border-subtle">
                   {table.getFlatHeaders().map((header) => (
-                    <th key={header.id} scope="col" className="px-4 py-3 text-left text-[11px] font-semibold text-muted uppercase tracking-wider whitespace-nowrap">
+                    <th key={header.id} scope="col" className="px-4 py-3 text-left text-[10px] font-bold text-secondary uppercase tracking-wider whitespace-nowrap">
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </th>
                   ))}
@@ -378,7 +380,7 @@ export default function FarmerManagement() {
                     <tr
                       key={row.id}
                       onClick={() => setSelectedFarmer(row.original)}
-                      className={`border-b border-[#F5F0E8] last:border-0 cursor-pointer transition-colors hover:bg-[#F0EDE6] ${i % 2 === 1 ? 'bg-[#FAFAF8]' : 'bg-white'}`}
+                      className={`border-b border-subtle last:border-0 cursor-pointer transition-colors hover:bg-tertiary/50 ${i % 2 === 1 ? 'bg-primary/10' : 'bg-secondary'}`}
                       style={{ height: '52px' }}
                     >
                       {row.getVisibleCells().map((cell) => (
@@ -394,15 +396,15 @@ export default function FarmerManagement() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[#E8E3DA] bg-[#FAFAF8]">
-            <p className="text-[12px] text-muted">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-subtle bg-tertiary/30">
+            <p className="text-[11px] font-bold text-secondary uppercase tracking-tight">
               Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </p>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
-                className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6] transition-colors"
+                className="text-[11px] font-bold px-3 py-1.5 rounded-lg border border-subtle bg-secondary text-primary disabled:opacity-40 hover:bg-tertiary transition-colors shadow-sm"
               >
                 ← Prev
               </button>
@@ -410,8 +412,8 @@ export default function FarmerManagement() {
                 <button
                   key={i}
                   onClick={() => table.setPageIndex(i)}
-                  className={`text-xs w-8 h-8 rounded font-medium transition-colors ${
-                    table.getState().pagination.pageIndex === i ? 'bg-dark text-offwhite' : 'hover:bg-[#F0EDE6] text-secondary'
+                  className={`text-[11px] w-8 h-8 rounded-lg font-bold transition-all ${
+                    table.getState().pagination.pageIndex === i ? 'bg-gold text-dark shadow-sm' : 'hover:bg-tertiary text-secondary bg-secondary border border-subtle'
                   }`}
                 >
                   {i + 1}
@@ -420,7 +422,7 @@ export default function FarmerManagement() {
               <button
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
-                className="text-xs px-3 py-1.5 rounded border border-[#E8E3DA] disabled:opacity-40 hover:bg-[#F0EDE6] transition-colors"
+                className="text-[11px] font-bold px-3 py-1.5 rounded-lg border border-subtle bg-secondary text-primary disabled:opacity-40 hover:bg-tertiary transition-colors shadow-sm"
               >
                 Next →
               </button>

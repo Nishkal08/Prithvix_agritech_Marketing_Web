@@ -15,26 +15,27 @@ const ICON_COLORS = {
 
 export default function KPICard({ label, value, iconName, delta, trend }) {
   const Icon = ICON_MAP[iconName] || TrendingUp;
-  const colors = ICON_COLORS[trend] || ICON_COLORS.up;
+  const isUp = trend === 'up';
+  const TrendIcon = isUp ? ArrowUpRight : ArrowDownRight;
 
   return (
-    <motion.div
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2 }}
-      className="bg-white border border-[#E8E3DA] rounded-xl p-5"
-    >
-      <div className="flex items-start justify-between mb-4">
-        <p className="text-[13px] text-secondary font-medium">{label}</p>
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${colors.bg}`}>
-          <Icon size={18} className={colors.icon} />
+    <div className="bg-secondary p-5 rounded-xl border border-subtle flex flex-col gap-3 shadow-sm">
+      <div className="flex items-center justify-between">
+        <span className="text-[12px] font-medium text-secondary uppercase tracking-wider">{label}</span>
+        <div className="w-8 h-8 rounded-lg bg-tertiary flex items-center justify-center text-gold">
+          <Icon size={18} />
         </div>
       </div>
-      <p className="font-display font-bold text-[28px] text-dark leading-none mb-2">{value}</p>
-      <div className="flex items-center gap-1">
-        <span className={`text-[12px] font-medium ${trend === 'warn' ? 'text-[#D4A853]' : 'text-[#2D9E5A]'}`}>
-          {trend === 'up' ? '↑' : '⚠'} {delta}
-        </span>
+      <div>
+        <h3 className="text-2xl font-bold text-primary">{value}</h3>
+        <div className="flex items-center gap-1.5 mt-1">
+          <TrendIcon size={14} className={isUp ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'} />
+          <span className={`text-[12px] font-semibold ${isUp ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+            {delta}
+          </span>
+          <span className="text-[11px] text-secondary">from last month</span>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

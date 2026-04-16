@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 :root {
+  /* Brand Colors */
   --color-forest:     #1A3C2B;
   --color-gold:       #D4A853;
   --color-offwhite:   #F5F0E8;
@@ -13,7 +14,32 @@
   --color-surface:    #EDE8DF;
   --color-border:     #D6CFC3;
   --color-gold-light: #F0D898;
+
+  /* Theme Semantic Tokens (Light) */
+  --bg-primary:    var(--color-offwhite);
+  --bg-secondary:  #FFFFFF;
+  --bg-tertiary:   #F5F0E8;
+  --text-primary:  var(--color-dark);
+  --text-secondary: var(--color-muted);
+  --border-subtle: #E8E3DA;
+  --card-shadow:   0 4px 12px rgba(14, 26, 20, 0.05);
 }
+
+.dark {
+  /* Theme Semantic Tokens (Dark) */
+  --bg-primary:    #0E1A14;
+  --bg-secondary:  #15261D;
+  --bg-tertiary:   #1A3C2B;
+  --text-primary:  #F5F0E8;
+  --text-secondary: #9BA89E;
+  --border-subtle: #1F382A;
+  --card-shadow:   0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.05s ease;
+}
+
 
 *, *::before, *::after {
   margin: 0;
@@ -29,8 +55,8 @@ html {
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: var(--color-offwhite);
-  color: var(--color-dark);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.7;
   overflow-x: hidden;
 }

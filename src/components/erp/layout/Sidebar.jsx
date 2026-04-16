@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { DashboardContext } from '../../../context/DashboardContext';
 import { AuthContext } from '../../../context/AuthContext';
+import { useTheme } from '../../../context/ThemeContext';
 import Logo from '../../ui/Logo';
 
 const NAV_ITEMS = [
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
 export default function Sidebar() {
   const { isCollapsed, toggleSidebar } = useContext(DashboardContext);
   const { user, logout } = useContext(AuthContext);
+  const { theme } = useTheme();
 
   const width = isCollapsed ? 'w-[64px]' : 'w-[256px]';
 
@@ -30,15 +32,15 @@ export default function Sidebar() {
       <div className={`hidden md:block shrink-0 transition-all duration-250 ease-out ${width}`} />
 
       <aside 
-        className={`hidden md:flex fixed top-0 left-0 bottom-0 bg-dark text-muted flex-col border-r border-forest/30 transition-all duration-250 ease-out z-40 ${width}`}
+        className={`hidden md:flex fixed top-0 left-0 bottom-0 bg-secondary text-secondary flex-col border-r border-subtle transition-all duration-250 ease-out z-40 ${width}`}
       >
         {/* Logo Area */}
         <div className="h-[60px] flex items-center px-4 relative shrink-0">
           <div className="overflow-hidden whitespace-nowrap flex items-center">
             {isCollapsed ? (
-              <img src="/leaf-solo.svg" alt="Logo" className="w-8 h-8 opacity-0" /> // Pseudo hide if no icon logo
+              <img src="/leaf-solo.svg" alt="Logo" className="w-8 h-8 opacity-50" />
             ) : (
-              <Logo variant="light" className="h-6 w-auto" />
+              <Logo variant={theme === 'dark' ? 'light' : 'dark'} className="h-6 w-auto" />
             )}
           </div>
           
@@ -101,21 +103,21 @@ export default function Sidebar() {
             )}
           </NavLink>
 
-          <div className={`flex items-center p-2 rounded-lg bg-forest/20 mt-2 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+          <div className={`flex items-center p-2 rounded-lg bg-tertiary mt-2 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
             <div className="flex items-center gap-3 overflow-hidden">
               <div className="w-8 h-8 rounded-full bg-forest text-gold flex items-center justify-center text-xs font-bold shrink-0">
                 {user?.name?.substring(0, 2).toUpperCase() || 'U'}
               </div>
               {!isCollapsed && (
                 <div className="min-w-0">
-                  <p className="text-[13px] font-bold text-offwhite truncate">{user?.name}</p>
+                  <p className="text-[13px] font-bold text-primary truncate">{user?.name}</p>
                   <p className="text-[10px] text-gold uppercase tracking-wider">{user?.role}</p>
                 </div>
               )}
             </div>
             
             {!isCollapsed && (
-              <button onClick={logout} className="p-1.5 text-muted hover:text-offwhite hover:bg-forest/50 rounded-md transition-colors" title="Logout">
+              <button onClick={logout} className="p-1.5 text-secondary hover:text-primary hover:bg-forest/20 rounded-md transition-colors" title="Logout">
                 <LogOut size={16} />
               </button>
             )}
