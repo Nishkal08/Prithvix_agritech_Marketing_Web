@@ -40,7 +40,13 @@ export default function CropField({ className = '' }) {
   }, []);
 
   return (
-    <div className={`relative ${className}`}>
+    <div 
+      className={`relative ${className}`}
+      style={{
+        maskImage: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 75%)',
+        WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 75%)'
+      }}
+    >
       <canvas ref={canvasRef} className="w-full h-full" />
       {/* Fallback if WebGL fails — shown via CSS if canvas is empty */}
       <noscript>

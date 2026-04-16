@@ -14,7 +14,7 @@ export function createCropFieldScene(canvas, options = {}) {
 
   // 2. Scene Configuration
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0xF5F0E8, 0.05); // Smooth background blending
+  scene.fog = new THREE.FogExp2(0xF5F0E8, 0.12); // Smooth background blending
 
   // 3. Grounded Camera
   // Using a grounded, human-scale perspective instead of top-down
