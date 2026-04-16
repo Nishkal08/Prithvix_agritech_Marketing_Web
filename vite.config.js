@@ -6,6 +6,17 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+    proxy: {
+      '/api/claude': {
+        target: 'https://api.anthropic.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/claude/, ''),
+        headers: {
+          'anthropic-version': '2023-06-01',
+          'x-api-key': process.env.VITE_CLAUDE_API_KEY,
+        }
+      }
+    }
   },
   build: {
     outDir: 'dist',

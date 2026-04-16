@@ -1,9 +1,20 @@
 import { useState, useCallback, Suspense, lazy } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
+import { AuthProvider } from './context/AuthContext';
+import { DashboardProvider } from './context/DashboardContext';
+
+// Existing Marketing Layout
 import Navbar from './components/layout/Navbar';
 import SplashScreen from './components/sections/SplashScreen';
 import Hero from './components/sections/Hero';
 import ContactModal from './components/sections/ContactModal';
+
+// ERP Routes
+import ProtectedRoute from './components/erp/layout/ProtectedRoute';
+import DashboardShell from './components/erp/layout/DashboardShell';
+import Login from './components/erp/pages/Login';
+import DashboardHome from './components/erp/pages/DashboardHome';
 
 // Lazy load sections below the fold
 const FeaturesSticky = lazy(() => import('./components/sections/FeaturesSticky'));
@@ -22,7 +33,8 @@ function SectionFallback() {
   );
 }
 
-export default function App() {
+// Extract the original static marketing site into a separate component
+function MarketingSite() {
   const [splashDone, setSplashDone] = useState(
     sessionStorage.getItem('splashSeen') === 'true'
   );
@@ -41,7 +53,7 @@ export default function App() {
   }, []);
 
   return (
-    <LanguageProvider>
+    <>
       {/* Splash Screen */}
       {!splashDone && (
         <SplashScreen onComplete={handleSplashComplete} />
@@ -90,6 +102,32 @@ export default function App() {
 
       {/* Contact Modal */}
       <ContactModal isOpen={contactOpen} onClose={closeContact} />
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AuthProvider>
+        <DashboardProvider>
+          <Routes>
+            {/* Marketing Site */}
+            <Route path="/" element={<MarketingSite />} />
+            
+            {/* ERP Portal */}
+            <Route path="/dashboard/login" element={<Login />} />
+            
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<DashboardShell />}>
+                <Route index element={<DashboardHome />} />
+                {/* Additional protected routes will be mounted here */}
+              </Route>
+            </Route>
+
+          </Routes>
+        </DashboardProvider>
+      </AuthProvider>
     </LanguageProvider>
   );
 }
